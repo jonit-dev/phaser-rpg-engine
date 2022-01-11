@@ -1,6 +1,4 @@
-import { ISceneData } from './SceneTypes';
-
-export const PreloadSceneData: ISceneData = {
+export const PreloadSceneData = {
   key: 'PreloadScene',
   assets: {},
 };

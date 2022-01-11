@@ -1,6 +1,4 @@
-import { ISceneData } from './SceneTypes';
-
-export const MainSceneData: ISceneData = {
+export const MainSceneData = {
   key: 'MainScene',
   assets: {
     bomb: {
@@ -9,7 +7,7 @@ export const MainSceneData: ISceneData = {
     },
     ground: {
       key: 'ground',
-      path: 'assets/img/mainScene/platform.png',
+      path: 'assets/img/mainScene/ground.png',
     },
     sky: {
       key: 'sky',

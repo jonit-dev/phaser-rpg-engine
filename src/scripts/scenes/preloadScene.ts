@@ -12,7 +12,7 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.image(MainSceneData.assets.sky.key, MainSceneData.assets.sky.path);
     this.load.image(MainSceneData.assets.star.key, MainSceneData.assets.star.path);
 
-    this.load.spritesheet(MainSceneData.assets.dude, MainSceneData.assets.dude.path, {
+    this.load.spritesheet(MainSceneData.assets.dude.key, MainSceneData.assets.dude.path, {
       frameWidth: 32,
       frameHeight: 48,
     });
