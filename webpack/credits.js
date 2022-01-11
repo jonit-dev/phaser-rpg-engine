@@ -17,4 +17,4 @@ console.log(
   'background: #00ffff',
   'color: #fff; background: #000000;',
   'background: none'
-)
+);
