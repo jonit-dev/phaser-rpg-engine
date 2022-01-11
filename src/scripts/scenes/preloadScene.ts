@@ -1,21 +1,25 @@
+import { MainSceneData } from '../../../typings/MainSceneTypes';
+import { PreloadSceneData } from '../../../typings/PreloadSceneTypes';
+
 export default class PreloadScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'PreloadScene' });
+    super({ key: PreloadSceneData.key });
   }
 
   preload() {
-    this.load.image('bomb', 'assets/img/bomb.png');
-    this.load.image('ground', 'assets/img/platform.png');
-    this.load.image('sky', 'assets/img/sky.png');
-    this.load.image('star', 'assets/img/star.png');
-    this.load.spritesheet('dude', 'assets/img/dude.png', {
+    this.load.image(MainSceneData.assets.bomb.key, MainSceneData.assets.bomb.path);
+    this.load.image(MainSceneData.assets.ground.key, MainSceneData.assets.ground.path);
+    this.load.image(MainSceneData.assets.sky.key, MainSceneData.assets.sky.path);
+    this.load.image(MainSceneData.assets.star.key, MainSceneData.assets.star.path);
+
+    this.load.spritesheet(MainSceneData.assets.dude, MainSceneData.assets.dude.path, {
       frameWidth: 32,
       frameHeight: 48,
     });
   }
 
   create() {
-    this.scene.start('MainScene');
+    this.scene.start(MainSceneData.key);
 
     /**
      * This is how you would dynamically import the mainScene class (with code splitting),
