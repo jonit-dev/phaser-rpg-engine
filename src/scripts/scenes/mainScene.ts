@@ -1,6 +1,7 @@
 import { MainSceneData } from '../../../typings/MainSceneTypes';
+import FpsText from '../../UI/fpsText';
 import ScoreLabel from '../../UI/ScoreLabel';
-import FpsText from '../objects/fpsText';
+import BombSpawner from '../objects/BombSpawner';
 import { Player } from '../objects/Player';
 
 export default class MainScene extends Phaser.Scene {
@@ -9,6 +10,8 @@ export default class MainScene extends Phaser.Scene {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   public static stars: Phaser.Physics.Arcade.Group;
   public static scoreLabel: ScoreLabel;
+  public static bombSpawner: BombSpawner;
+  private gameOver: boolean = false;
 
   constructor() {
     super({ key: MainSceneData.key });
@@ -23,12 +26,29 @@ export default class MainScene extends Phaser.Scene {
     const platforms = this.createPlatforms();
     MainScene.stars = this.createStars();
     this.player = new Player(this, 500, 300, MainSceneData.assets.dude.key);
+    MainScene.bombSpawner = new BombSpawner(this, MainSceneData.assets.bomb.key);
 
+    this.setupColliders(platforms);
+    this.setupUI();
+  }
+
+  update() {
+    this.fpsText.update();
+    this.player.movements();
+
+    if (this.gameOver) {
+      return;
+    }
+  }
+
+  private setupColliders(platforms) {
     this.physics.add.collider(this.player, platforms);
     this.physics.add.collider(MainScene.stars, platforms);
+    this.physics.add.collider(MainScene.bombSpawner.group, platforms);
+    this.physics.add.collider(this.player, MainScene.bombSpawner.group, this.hitBomb, undefined, this);
+  }
 
-    MainScene.scoreLabel = this.createScoreLabel(16, 16, 0);
-
+  private setupUI() {
     // Debug
 
     this.fpsText = new FpsText(this);
@@ -41,11 +61,8 @@ export default class MainScene extends Phaser.Scene {
         fontSize: 12,
       })
       .setOrigin(1, 0);
-  }
 
-  update() {
-    this.fpsText.update();
-    this.player.movements();
+    MainScene.scoreLabel = this.createScoreLabel(16, 16, 0);
   }
 
   private createPlatforms() {
@@ -78,5 +95,15 @@ export default class MainScene extends Phaser.Scene {
     const label = new ScoreLabel(this, x, this.cameras.main.height - 32, score, style);
 
     return label;
+  }
+
+  private hitBomb(player, bomb) {
+    this.physics.pause();
+
+    player.setTint(0xff0000);
+
+    player.anims.play('turn');
+
+    this.gameOver = true;
   }
 }

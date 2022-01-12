@@ -56,5 +56,14 @@ export class Player extends RigidBody {
   private collectStar(player, star) {
     star.disableBody(true, true);
     MainScene.scoreLabel.add(10);
+    MainScene.bombSpawner.spawn(player.x);
+
+    if (MainScene.stars.countActive(true) === 0) {
+      //  A new batch of stars to collect
+      MainScene.stars.children.iterate((child) => {
+        //@ts-ignore
+        child.enableBody(true, child.x, 0, true, true);
+      });
+    }
   }
 }
