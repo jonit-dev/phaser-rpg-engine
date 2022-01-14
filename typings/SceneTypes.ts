@@ -1,9 +1,6 @@
+import { IAssetData } from './AssetTypes';
+
 export interface ISceneData {
   key: string;
-  assets: {
-    [name: string]: {
-      key: string;
-      path: string;
-    };
-  };
+  assets: IAssetData;
 }

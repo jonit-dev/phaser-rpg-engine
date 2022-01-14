@@ -1,5 +1,5 @@
-import { MainSceneData } from '../../../typings/MainSceneTypes';
 import { PreloadSceneData } from '../../../typings/PreloadSceneTypes';
+import { MainSceneData } from '../../constants/scenes/MainSceneData';
 
 export default class PreloadScene extends Phaser.Scene {
   constructor() {
@@ -7,14 +7,10 @@ export default class PreloadScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image(MainSceneData.assets.bomb.key, MainSceneData.assets.bomb.path);
-    this.load.image(MainSceneData.assets.ground.key, MainSceneData.assets.ground.path);
-    this.load.image(MainSceneData.assets.sky.key, MainSceneData.assets.sky.path);
-    this.load.image(MainSceneData.assets.star.key, MainSceneData.assets.star.path);
-
-    this.load.spritesheet(MainSceneData.assets.dude.key, MainSceneData.assets.dude.path, {
+    // this.load.image(MainSceneData.assets.bomb.key, MainSceneData.assets.bomb.path);
+    this.load.spritesheet(MainSceneData.assets.player.key, MainSceneData.assets.player.path, {
       frameWidth: 32,
-      frameHeight: 48,
+      frameHeight: 32,
     });
   }
 
