@@ -1,4 +1,4 @@
-import { IAnimationData } from '../../../typings/AnimationTypes';
+import { AnimationDirection, IAnimationData } from '../../../typings/AnimationTypes';
 import { IAssetData } from '../../../typings/AssetTypes';
 
 export class Entity extends Phaser.Physics.Arcade.Sprite {
@@ -41,6 +41,14 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
         frameRate: 10,
         repeat: -1,
       });
+    }
+  }
+
+  public playAnimations(direction: AnimationDirection, isMoving: boolean) {
+    if (isMoving) {
+      this.anims.play(`${this.textureKey}_${direction}_walking`, true);
+    } else {
+      this.anims.play(`${this.textureKey}_${direction}_standing`, false);
     }
   }
 }

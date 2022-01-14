@@ -18,22 +18,18 @@ export class Player extends Entity {
   public movements() {
     if (this.cursors.up.isDown) {
       this.setVelocityY(-this.speed);
-      this.anims.play('player_up_walking', true);
       this.direction = 'up';
       this.isMoving = true;
     } else if (this.cursors.down.isDown) {
       this.setVelocityY(this.speed);
-      this.anims.play('player_down_walking', true);
       this.direction = 'down';
       this.isMoving = true;
     } else if (this.cursors.left.isDown) {
       this.setVelocityX(-this.speed);
-      this.anims.play('player_left_walking', true);
       this.direction = 'left';
       this.isMoving = true;
     } else if (this.cursors.right.isDown) {
       this.setVelocityX(this.speed);
-      this.anims.play('player_right_walking', true);
       this.direction = 'right';
       this.isMoving = true;
     } else {
@@ -43,9 +39,6 @@ export class Player extends Entity {
       this.isMoving = false;
     }
 
-    // standing animation
-    if (!this.isMoving) {
-      this.anims.play(`player_${this.direction}_standing`, false);
-    }
+    this.playAnimations(this.direction, this.isMoving);
   }
 }
