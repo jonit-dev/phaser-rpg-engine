@@ -2,7 +2,7 @@ import { IAnimationData } from './AnimationTypes';
 
 export interface IAssetData {
   [asset: string]: {
-    key: string;
+    textureKey: string;
     path: string;
     animations: IAnimationData;
   };

@@ -1,6 +1,14 @@
+import { IAnimationData } from '../../../typings/AnimationTypes';
+import { IAssetData } from '../../../typings/AssetTypes';
+
 export class Entity extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
-    super(scene, x, y, texture);
+  private assetData: IAssetData;
+  private textureKey: string;
+
+  constructor(scene: Phaser.Scene, x: number, y: number, textureKey: string, assetData: IAssetData) {
+    super(scene, x, y, textureKey);
+
+    this.textureKey = textureKey;
 
     // add it to the scene
     this.scene.add.existing(this);
@@ -8,5 +16,31 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.world.enableBody(this, 0);
 
     this.setCollideWorldBounds(true);
+
+    this.assetData = assetData;
+    this.setupAnimations(this.assetData[textureKey].animations);
+  }
+
+  private setupAnimations(animationData: IAnimationData) {
+    for (const [direction, data] of Object.entries(animationData)) {
+      this.scene.anims.create({
+        key: `${this.textureKey}_${direction}_walking`,
+        frames: this.scene.anims.generateFrameNumbers(this.assetData[this.textureKey].textureKey, {
+          start: data.walking[0],
+          end: data.walking[1],
+        }),
+        frameRate: 10,
+        repeat: -1,
+      });
+
+      this.scene.anims.create({
+        key: `${this.textureKey}_${direction}_standing`,
+        frames: this.scene.anims.generateFrameNumbers(this.assetData[this.textureKey].textureKey, {
+          start: data.standing as number,
+        }),
+        frameRate: 10,
+        repeat: -1,
+      });
+    }
   }
 }

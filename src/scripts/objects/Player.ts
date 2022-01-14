@@ -10,31 +10,9 @@ export class Player extends Entity {
   private speed: number = 200;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
-    super(scene, x, y, texture);
+    super(scene, x, y, texture, MainSceneData.assets);
 
     this.cursors = this.scene.input.keyboard.createCursorKeys();
-
-    this.setupAnimations();
-  }
-
-  private setupAnimations() {
-    for (const [key, value] of Object.entries(this.animationsData)) {
-      this.scene.anims.create({
-        key: value.walking.key,
-        frames: this.scene.anims.generateFrameNumbers(MainSceneData.assets.player.key, value.walking.frames),
-        frameRate: 10,
-        repeat: -1,
-      });
-
-      this.scene.anims.create({
-        key: value.standing.key,
-        frames: this.scene.anims.generateFrameNumbers(MainSceneData.assets.player.key, {
-          start: value.standing.frame,
-        }),
-        frameRate: 10,
-        repeat: -1,
-      });
-    }
   }
 
   public movements() {

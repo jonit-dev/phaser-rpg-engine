@@ -9,7 +9,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-    this.player = new Player(this, 100, 200, MainSceneData.assets.player.key);
+    this.player = new Player(this, 100, 200, MainSceneData.assets.player.textureKey);
   }
 
   update() {

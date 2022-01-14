@@ -8,7 +8,7 @@ export default class PreloadScene extends Phaser.Scene {
 
   preload() {
     // this.load.image(MainSceneData.assets.bomb.key, MainSceneData.assets.bomb.path);
-    this.load.spritesheet(MainSceneData.assets.player.key, MainSceneData.assets.player.path, {
+    this.load.spritesheet(MainSceneData.assets.player.textureKey, MainSceneData.assets.player.path, {
       frameWidth: 32,
       frameHeight: 32,
     });
