@@ -5,8 +5,8 @@ import { Entity as Entity } from '../abstractions/Entity';
 export class Player extends Entity {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private direction: AnimationDirection = 'down';
-  private isMoving: boolean = false;
-  private speed: number = 200;
+
+  public speed: number = 200;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture, MainSceneData.assets);
@@ -14,30 +14,21 @@ export class Player extends Entity {
     this.cursors = this.scene.input.keyboard.createCursorKeys();
   }
 
-  public movements() {
-    if (this.cursors.up.isDown) {
-      this.setVelocityY(-this.speed);
+  public movements(gridEngine) {
+    if (this.cursors.up.isDown && !gridEngine.isMoving('player')) {
+      gridEngine.move('player', 'up');
       this.direction = 'up';
-      this.isMoving = true;
-    } else if (this.cursors.down.isDown) {
-      this.setVelocityY(this.speed);
+    } else if (this.cursors.down.isDown && !gridEngine.isMoving('player')) {
       this.direction = 'down';
-      this.isMoving = true;
-    } else if (this.cursors.left.isDown) {
-      this.setVelocityX(-this.speed);
+      gridEngine.move('player', 'down');
+    } else if (this.cursors.left.isDown && !gridEngine.isMoving('player')) {
       this.direction = 'left';
-      this.isMoving = true;
-    } else if (this.cursors.right.isDown) {
-      this.setVelocityX(this.speed);
+      gridEngine.move('player', 'left');
+    } else if (this.cursors.right.isDown && !gridEngine.isMoving('player')) {
       this.direction = 'right';
-      this.isMoving = true;
-    } else {
-      this.setVelocityX(0);
-      this.setVelocityY(0);
-      this.anims.stop();
-      this.isMoving = false;
+      gridEngine.move('player', 'right');
     }
 
-    this.playAnimations(this.direction, this.isMoving);
+    this.playAnimations(this.direction, gridEngine.isMoving('player'));
   }
 }

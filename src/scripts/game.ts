@@ -1,3 +1,4 @@
+import GridEngine from 'grid-engine';
 import 'phaser';
 import { CAMERA_VIEWPORT_HEIGHT, CAMERA_VIEWPORT_WIDTH, WORLD_HEIGHT, WORLD_WIDTH } from '../constants/worldConstants';
 import MainScene from './scenes/mainScene';
@@ -21,6 +22,15 @@ const config: Phaser.Types.Core.GameConfig = {
     arcade: {
       debug: false,
     },
+  },
+  plugins: {
+    scene: [
+      {
+        key: 'gridEngine',
+        plugin: GridEngine,
+        mapping: 'gridEngine',
+      },
+    ],
   },
 };
 

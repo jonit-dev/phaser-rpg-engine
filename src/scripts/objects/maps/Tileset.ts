@@ -1,11 +1,15 @@
+import { GRID_HEIGHT, GRID_WIDTH } from '../../../constants/worldConstants';
+
 export class Tileset {
+  public tilemap: Phaser.Tilemaps.Tilemap;
+
   constructor(scene: Phaser.Scene, tilemapKey: string, tilesetImageKey: string, layerNames: string[]) {
-    const tilemap = scene.add.tilemap(tilemapKey);
+    this.tilemap = scene.add.tilemap(tilemapKey);
 
-    const tileset = tilemap.addTilesetImage(tilesetImageKey, tilesetImageKey);
+    const tileset = this.tilemap.addTilesetImage(tilesetImageKey, tilesetImageKey, GRID_WIDTH, GRID_HEIGHT);
 
-    for (const layer of layerNames) {
-      tilemap.createLayer(layer, tileset, 0, 0);
+    for (const layerName of layerNames) {
+      const layer = this.tilemap.createLayer(layerName, tileset, 0, 0);
     }
   }
 }
