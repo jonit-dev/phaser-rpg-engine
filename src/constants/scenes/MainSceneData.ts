@@ -5,7 +5,7 @@ export const MainSceneData: ISceneData = {
   assets: {
     player: {
       textureKey: 'player',
-      path: 'assets/mainScene/images/spritesheets/player.png',
+      path: 'assets/spritesheets/player.png',
       animations: {
         down: {
           walking: [0, 2],

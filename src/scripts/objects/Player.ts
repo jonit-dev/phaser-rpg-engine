@@ -6,7 +6,6 @@ export class Player extends Entity {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private direction: AnimationDirection = 'down';
   private isMoving: boolean = false;
-  private animationsData = MainSceneData.assets.player.animations;
   private speed: number = 200;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {

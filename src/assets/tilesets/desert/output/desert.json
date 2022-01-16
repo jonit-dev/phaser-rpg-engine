@@ -1,0 +1,63 @@
+{
+  "frames": {
+    "ground_tiles.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 671,
+        "h": 701
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 671,
+        "h": 701
+      },
+      "sourceSize": {
+        "w": 672,
+        "h": 701
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Cliff_tileset.png": {
+      "frame": {
+        "x": 0,
+        "y": 701,
+        "w": 502,
+        "h": 502
+      },
+      "rotated": false,
+      "trimmed": true,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 15,
+        "w": 502,
+        "h": 502
+      },
+      "sourceSize": {
+        "w": 503,
+        "h": 518
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.7",
+    "image": "desert.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 671,
+      "h": 1203
+    },
+    "scale": 1
+  }
+}

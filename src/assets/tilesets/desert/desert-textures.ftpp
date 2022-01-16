@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "version": "0.6.7"
+  },
+  "savePath": "",
+  "images": [
+    {
+      "name": "Cliff_tileset.png",
+      "path": "/home/jonit/Programming/phaserjs/rpg-engine/src/assets/tilesets/desert/data/Cliff_tileset.png",
+      "folder": ""
+    },
+    {
+      "name": "ground_tiles.png",
+      "path": "/home/jonit/Programming/phaserjs/rpg-engine/src/assets/tilesets/desert/data/ground_tiles.png",
+      "folder": ""
+    }
+  ],
+  "folders": [],
+  "packOptions": {
+    "textureName": "desert",
+    "textureFormat": "png",
+    "removeFileExtension": false,
+    "prependFolderName": true,
+    "base64Export": false,
+    "tinify": true,
+    "tinifyKey": "kz36gxhPRP4R9hkfqpsbC8Tz1TlzNvKv",
+    "scale": 1,
+    "filter": "none",
+    "exporter": "JSON (hash)",
+    "fileName": "pack-result",
+    "savePath": "",
+    "width": 0,
+    "height": 0,
+    "fixedSize": false,
+    "powerOfTwo": false,
+    "padding": 0,
+    "extrude": 0,
+    "allowRotation": false,
+    "allowTrim": true,
+    "trimMode": "trim",
+    "alphaThreshold": "0",
+    "detectIdentical": true,
+    "packer": "OptimalPacker",
+    "packerMethod": "Automatic"
+  }
+}
