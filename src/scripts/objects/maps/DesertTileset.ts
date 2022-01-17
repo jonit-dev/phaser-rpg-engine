@@ -1,3 +1,4 @@
+import { appEnv } from '../../constants/appEnv';
 import { Tileset } from './Tileset';
 
 export class DesertMapTileset extends Tileset {
@@ -7,6 +8,6 @@ export class DesertMapTileset extends Tileset {
 
   public static preload(scene: Phaser.Scene) {
     scene.load.image('desert', 'assets/tilesets/desert/output/desert.png');
-    scene.load.tilemapTiledJSON('desert_map', 'assets/tilesets/desert/desert.json');
+    scene.load.tilemapTiledJSON('desert_map', `${appEnv.server.url}/maps/desert.json`);
   }
 }

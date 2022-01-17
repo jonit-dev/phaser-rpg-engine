@@ -10,6 +10,7 @@ export class Player extends Entity {
   private direction: AnimationDirection = 'down';
   public speed: number = 200;
   public static id = uuidv4();
+  private coordinatesText: Phaser.GameObjects.Text;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture, MainSceneData.assets);
@@ -17,6 +18,18 @@ export class Player extends Entity {
     this.cursors = this.scene.input.keyboard.createCursorKeys();
 
     this.handleIOEvents();
+
+    this.coordinatesText = scene.add.text(0, 0, '', {
+      color: 'red',
+    });
+
+    const container = scene.add.container(0, 0, [this, this.coordinatesText]);
+  }
+
+  public onPlayerUpdate() {
+    this.coordinatesText.text = `Player ${Math.round(this.x)}, ${Math.round(this.y)}`;
+    this.coordinatesText.x = this.x - this.coordinatesText.width / 2;
+    this.coordinatesText.y = this.y - this.coordinatesText.height / 2;
   }
 
   public movements(gridEngine) {

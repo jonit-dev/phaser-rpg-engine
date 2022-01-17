@@ -25,9 +25,26 @@ export default class MainScene extends Phaser.Scene {
     this.camera = new Camera(this, this.player);
 
     new GridManager(this, this.player, this.map.tilemap);
+
+    console.log(process.env.ENV);
+
+    this.input.on(Phaser.Input.Events.POINTER_UP, (pointer: Phaser.Input.Pointer) => {
+      const { worldX, worldY } = pointer;
+
+      console.log(`Pointer up at ${worldX}, ${worldY}`);
+
+      const tile = this.map.tilemap.getTileAtWorldXY(worldX, worldY, true, undefined, '+1');
+
+      console.log(`here we have tile`);
+      console.log(tile);
+      console.log(tile.x, tile.y);
+
+      // use startVec and targetVec
+    });
   }
 
   update() {
     this.player.movements(this.gridEngine);
+    this.player.onPlayerUpdate();
   }
 }
