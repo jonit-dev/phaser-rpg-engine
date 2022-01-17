@@ -888,6 +888,20 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
+"@geckos.io/client@^2.1.6":
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/@geckos.io/client/-/client-2.1.6.tgz#122ff05d7435c5754c5a98a268282ab8c8e6b3c9"
+  integrity sha512-HgBVIvWPUfvXS2dBlaxLIxW15UfyUcfCpzsyZ0qMKMS0rWSBCC4BVmwiATAk+egeN6FRmVsTHsKyi3I6Foc+fg==
+  dependencies:
+    "@geckos.io/common" "^2.1.6"
+
+"@geckos.io/common@^2.1.6":
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/@geckos.io/common/-/common-2.1.6.tgz#b118832b11bcf17c2bbebbb9e3ad1791ad60e1b5"
+  integrity sha512-x8L1noMl5wiO1mjTNlAZiDoCBeImz8PQQvYdJPfLs2Yws+uT2GT0ofz4opT08XLayFNGSZXj3Nd5iPiKwR2LFA==
+  dependencies:
+    "@yandeu/events" "0.0.5"
+
 "@gradecam/tsenum@1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@gradecam/tsenum/-/tsenum-1.2.0.tgz#0c7c7c86e00e2d9ab8f242c695bec66b26b79319"
@@ -1207,6 +1221,11 @@
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
+
+"@yandeu/events@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@yandeu/events/-/events-0.0.5.tgz#f8fb41cf4222186eca6a0a5d36f5393805484f19"
+  integrity sha512-TUkghSGu0ThcEyAP50WHU/vdQkpt9EZyotjZzG8KirR+VI5o7Rp5wabcGru62JNy+awMR8Voy+kFzhNkC/1E6A==
 
 "@zeit/schemas@2.6.0":
   version "2.6.0"

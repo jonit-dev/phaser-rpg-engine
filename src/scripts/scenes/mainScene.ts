@@ -1,6 +1,6 @@
-import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../../constants/playerConstants';
-import { MainSceneData } from '../../constants/scenes/MainSceneData';
-import { WORLD_HEIGHT, WORLD_WIDTH } from '../../constants/worldConstants';
+import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../constants/playerConstants';
+import { MainSceneData } from '../constants/scenes/MainSceneData';
+import { WORLD_HEIGHT, WORLD_WIDTH } from '../constants/worldConstants';
 import { Camera } from '../objects/Camera';
 import { GridManager } from '../objects/GridManager';
 import { DesertMapTileset } from '../objects/maps/DesertTileset';

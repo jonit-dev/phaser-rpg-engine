@@ -1,4 +1,4 @@
-import { GRID_HEIGHT, GRID_WIDTH } from '../../../constants/worldConstants';
+import { GRID_HEIGHT, GRID_WIDTH } from '../../constants/worldConstants';
 
 export class Tileset {
   public tilemap: Phaser.Tilemaps.Tilemap;

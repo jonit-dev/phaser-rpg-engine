@@ -59,8 +59,10 @@
     }
   },
   "dependencies": {
+    "@geckos.io/client": "^2.1.6",
     "phaser": "^3.55.2",
     "prettier": "^2.5.1",
-    "pretty-quick": "^3.1.3"
+    "pretty-quick": "^3.1.3",
+    "uuid": "^8.3.2"
   }
 }

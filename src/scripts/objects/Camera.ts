@@ -1,4 +1,4 @@
-import { WORLD_HEIGHT, WORLD_WIDTH } from '../../constants/worldConstants';
+import { WORLD_HEIGHT, WORLD_WIDTH } from '../constants/worldConstants';
 import { Player } from './Player';
 
 export class Camera {

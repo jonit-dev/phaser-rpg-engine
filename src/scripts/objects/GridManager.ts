@@ -1,4 +1,4 @@
-import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../../constants/playerConstants';
+import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../constants/playerConstants';
 import { Player } from './Player';
 
 export class GridManager {

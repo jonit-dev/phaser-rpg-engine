@@ -1,4 +1,4 @@
-import { ISceneData } from '../../../typings/SceneTypes';
+import { ISceneData } from '../../../../typings/SceneTypes';
 
 export const MainSceneData: ISceneData = {
   key: 'MainScene',
