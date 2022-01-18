@@ -26,8 +26,6 @@ export default class MainScene extends Phaser.Scene {
 
     new GridManager(this, this.player, this.map.tilemap);
 
-    console.log(process.env.ENV);
-
     this.input.on(Phaser.Input.Events.POINTER_UP, (pointer: Phaser.Input.Pointer) => {
       const { worldX, worldY } = pointer;
 

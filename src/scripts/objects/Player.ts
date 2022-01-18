@@ -17,13 +17,15 @@ export class Player extends Entity {
 
     this.cursors = this.scene.input.keyboard.createCursorKeys();
 
-    this.handleIOEvents();
+    this.handleGeckoIOEvents();
 
     this.coordinatesText = scene.add.text(0, 0, '', {
       color: 'red',
     });
 
-    const container = scene.add.container(0, 0, [this, this.coordinatesText]);
+    scene.add.container(0, 0, [this, this.coordinatesText]);
+
+    console.log(`Player id ${Player.id} has been created`);
   }
 
   public onPlayerUpdate() {
@@ -50,10 +52,11 @@ export class Player extends Entity {
     this.playAnimations(this.direction, gridEngine.isMoving('player'));
   }
 
-  public handleIOEvents() {
+  public handleGeckoIOEvents() {
     // when creating a new player instance, warn the server so other players can be notified
     geckosClientHelper.channel.emit(PlayerGeckosEvents.Create, {
       id: Player.id,
+      channelId: geckosClientHelper.channelId,
       x: this.x,
       y: this.y,
     } as PlayerCreationPayload);
@@ -61,6 +64,10 @@ export class Player extends Entity {
     // when receiving a new player creation event, lets create his instance
     geckosClientHelper.channel.on(PlayerGeckosEvents.Create, (data) => {
       console.log('Someone joined the server! Creating new player instance!', data);
+    });
+
+    geckosClientHelper.channel.on(PlayerGeckosEvents.PrivateMessage, (data) => {
+      console.log(data);
     });
   }
 }

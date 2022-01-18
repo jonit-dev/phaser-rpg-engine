@@ -1,12 +1,12 @@
-import geckos, { ClientChannel } from '@geckos.io/client';
+import geckos, { ChannelId, ClientChannel } from '@geckos.io/client';
 import { Player } from '../../objects/Player';
 import { PlayerGeckosEvents } from '../../types/PlayerTypes';
 
 export class GeckosClientHelper {
   public channel: ClientChannel;
+  public channelId: ChannelId;
 
   constructor() {
-    console.log('creating client');
     this.channel = geckos({ port: 3000 }); // default port is 9208
   }
 
@@ -14,6 +14,8 @@ export class GeckosClientHelper {
     return new Promise((resolve, reject) => {
       this.channel.onConnect((error) => {
         console.log('⚙️ GeckosClient: connected to server');
+
+        this.channelId = this.channel.id;
 
         if (error) {
           reject(error.message);
