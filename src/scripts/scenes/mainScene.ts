@@ -9,8 +9,9 @@ import { Player } from '../objects/Player';
 export default class MainScene extends Phaser.Scene {
   private player: Player;
   private camera: Camera;
-  private gridEngine;
+  public gridEngine;
   private map: DesertMapTileset;
+  public static grid;
 
   constructor() {
     super({ key: MainSceneData.key });
@@ -19,26 +20,27 @@ export default class MainScene extends Phaser.Scene {
   create() {
     this.map = new DesertMapTileset(this); // should come before player rendering, to avoid overlap
     this.physics.world.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT); //map size limits
+    MainScene.grid = this.gridEngine;
 
     this.player = new Player(this, PLAYER_START_POS_X, PLAYER_START_POS_Y, MainSceneData.assets.player.textureKey);
+    new GridManager(this, this.player, this.map.tilemap);
+    this.player.onSubscribeToEvents();
 
     this.camera = new Camera(this, this.player);
 
-    new GridManager(this, this.player, this.map.tilemap);
+    // this.input.on(Phaser.Input.Events.POINTER_UP, (pointer: Phaser.Input.Pointer) => {
+    //   const { worldX, worldY } = pointer;
 
-    this.input.on(Phaser.Input.Events.POINTER_UP, (pointer: Phaser.Input.Pointer) => {
-      const { worldX, worldY } = pointer;
+    //   console.log(`Pointer up at ${worldX}, ${worldY}`);
 
-      console.log(`Pointer up at ${worldX}, ${worldY}`);
+    //   const tile = this.map.tilemap.getTileAtWorldXY(worldX, worldY, true, undefined, '+1');
 
-      const tile = this.map.tilemap.getTileAtWorldXY(worldX, worldY, true, undefined, '+1');
+    //   console.log(`here we have tile`);
+    //   console.log(tile);
+    //   console.log(tile.x, tile.y);
 
-      console.log(`here we have tile`);
-      console.log(tile);
-      console.log(tile.x, tile.y);
-
-      // use startVec and targetVec
-    });
+    //   // use startVec and targetVec
+    // });
   }
 
   update() {

@@ -7,9 +7,17 @@ export enum PlayerGeckosEvents {
 
 export interface PlayerCreationPayload {
   id: string;
+  name: string;
   channelId: string;
   x: number;
   y: number;
+}
+
+export interface PlayerPositionPayload {
+  id: string;
+  x: number;
+  y: number;
+  direction: string;
 }
 
 export interface PlayerLogoutPayload {
