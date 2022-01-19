@@ -1,4 +1,4 @@
-import { PreloadSceneData } from '../../../typings/PreloadSceneTypes';
+import { PreloadSceneData } from '../../typings/PreloadSceneTypes';
 import { MainSceneData } from '../constants/scenes/MainSceneData';
 import { DesertMapTileset } from '../objects/maps/DesertTileset';
 

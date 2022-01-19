@@ -4,8 +4,8 @@ import { WORLD_HEIGHT, WORLD_WIDTH } from '../constants/worldConstants';
 import { Camera } from '../objects/Camera';
 import { GridManager } from '../objects/GridManager';
 import { DesertMapTileset } from '../objects/maps/DesertTileset';
-import { OtherPlayer } from '../objects/OtherPlayer';
-import { Player } from '../objects/Player';
+import { OtherPlayer } from '../objects/Players/OtherPlayer';
+import { Player } from '../objects/Players/Player';
 
 export default class MainScene extends Phaser.Scene {
   private player: Player;

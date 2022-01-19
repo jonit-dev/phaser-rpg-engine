@@ -1,9 +1,9 @@
 import { AnimationDirection } from '../../../typings/AnimationTypes';
-import { Entity as Entity } from '../abstractions/Entity';
-import { MainSceneData } from '../constants/scenes/MainSceneData';
-import { geckosClientHelper } from '../game';
-import MainScene from '../scenes/mainScene';
-import { PlayerGeckosEvents, PlayerPositionPayload } from '../types/PlayerTypes';
+import { Entity as Entity } from '../../abstractions/Entity';
+import { MainSceneData } from '../../constants/scenes/MainSceneData';
+import { geckosClientHelper } from '../../game';
+import MainScene from '../../scenes/mainScene';
+import { PlayerGeckosEvents, PlayerPositionPayload } from '../../types/PlayerTypes';
 
 export class OtherPlayer extends Entity {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;

@@ -1,16 +1,16 @@
 import { animals, uniqueNamesGenerator } from 'unique-names-generator';
 import { v4 as uuidv4 } from 'uuid';
 import { AnimationDirection } from '../../../typings/AnimationTypes';
-import { Entity as Entity } from '../abstractions/Entity';
-import { MainSceneData } from '../constants/scenes/MainSceneData';
-import { geckosClientHelper } from '../game';
-import MainScene from '../scenes/mainScene';
+import { Entity } from '../../abstractions/Entity';
+import { MainSceneData } from '../../constants/scenes/MainSceneData';
+import { geckosClientHelper } from '../../game';
+import MainScene from '../../scenes/mainScene';
 import {
   PlayerCreationPayload,
   PlayerGeckosEvents,
   PlayerLogoutPayload,
   PlayerPositionPayload,
-} from '../types/PlayerTypes';
+} from '../../types/PlayerTypes';
 import { OtherPlayer } from './OtherPlayer';
 
 export class Player extends Entity {

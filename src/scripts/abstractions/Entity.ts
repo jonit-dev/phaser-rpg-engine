@@ -1,5 +1,5 @@
-import { AnimationDirection, IAnimationData } from '../../../typings/AnimationTypes';
-import { IAssetData } from '../../../typings/AssetTypes';
+import { AnimationDirection, IAnimationData } from '../../typings/AnimationTypes';
+import { IAssetData } from '../../typings/AssetTypes';
 
 export class Entity extends Phaser.Physics.Arcade.Sprite {
   private assetData: IAssetData;

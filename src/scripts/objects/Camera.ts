@@ -1,5 +1,5 @@
 import { WORLD_HEIGHT, WORLD_WIDTH } from '../constants/worldConstants';
-import { Player } from './Player';
+import { Player } from './Players/Player';
 
 export class Camera {
   private camera: Phaser.Cameras.Scene2D.Camera;
