@@ -39,10 +39,12 @@ export class Player extends Entity {
   public onSubscribeToEvents() {
     MainScene.grid.movementStarted().subscribe(({ charId, direction }) => {
       if (charId === 'player') {
+        const gridPosition = MainScene.grid.getPosition('player');
+
         geckosClientHelper.channel.emit(PlayerGeckosEvents.PositionUpdate, {
           id: Player.id,
-          x: this.x,
-          y: this.y,
+          x: gridPosition.x,
+          y: gridPosition.y,
           direction,
         } as PlayerPositionPayload);
       }
@@ -50,7 +52,9 @@ export class Player extends Entity {
   }
 
   public onPlayerUpdate() {
-    this.coordinatesText.text = `${this.name} | ${Math.round(this.x)}, ${Math.round(this.y)}`;
+    const gridPosition = MainScene.grid.getPosition('player');
+
+    this.coordinatesText.text = `${this.name} | ${gridPosition.x}, ${gridPosition.y}`;
     this.coordinatesText.x = this.x - this.coordinatesText.width / 2;
     this.coordinatesText.y = this.y - this.coordinatesText.height / 2;
   }

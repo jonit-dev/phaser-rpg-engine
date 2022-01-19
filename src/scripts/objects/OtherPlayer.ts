@@ -19,11 +19,10 @@ export class OtherPlayer extends Entity {
     MainScene.grid.addCharacter({
       id,
       sprite: this,
-    });
-
-    MainScene.grid.setPosition(id, {
-      x,
-      y,
+      startPosition: {
+        x,
+        y,
+      },
     });
 
     this.id = id;
@@ -35,7 +34,7 @@ export class OtherPlayer extends Entity {
 
     scene.add.container(0, 0, [this, this.coordinatesText]);
 
-    console.log(`💡 Other player(${this.name}) id ${this.id} has been created`);
+    console.log(`💡 Other player(${this.name}) id ${this.id} has been created and added to position: ${x}, ${y}`);
 
     this.handleIOEvents();
   }
@@ -47,8 +46,13 @@ export class OtherPlayer extends Entity {
       if (data.id === this.id) {
         console.log(`received position update for other player ${data.id}`);
         console.log('pos', data);
-        this.x = data.x;
-        this.y = data.y;
+
+        MainScene.grid.setPosition(this.id, {
+          x: data.x,
+          y: data.y,
+        });
+
+        this.direction = data.direction as AnimationDirection;
 
         MainScene.grid.move(this.id, data.direction);
       }
@@ -65,7 +69,9 @@ export class OtherPlayer extends Entity {
   }
 
   public updateCoordinateTexts() {
-    this.coordinatesText.text = `${this.name} ${Math.round(this.x)}, ${Math.round(this.y)}`;
+    const gridPosition = MainScene.grid.getPosition(this.id);
+
+    this.coordinatesText.text = `${this.name} ${Math.round(gridPosition.x)}, ${Math.round(gridPosition.y)}`;
     this.coordinatesText.x = this.x - this.coordinatesText.width / 2;
     this.coordinatesText.y = this.y - this.coordinatesText.height / 2;
   }
