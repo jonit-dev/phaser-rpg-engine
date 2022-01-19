@@ -58,10 +58,11 @@ export class OtherPlayer extends Entity {
       this.updateCoordinateTexts();
 
       // delete itself if too far, to preserve memory
-      const isOnView = this.scene.cameras.main.worldView.contains(this.x + 64, this.y + 64);
+      const isOnView = MainScene.camera.worldViewWithOffset.contains(this.x + this.width / 2, this.y + this.height / 2);
 
       if (!isOnView) {
         this.destroy();
+        console.log(`destroying other player out of view: ${this.id}`);
       }
     }
   }
@@ -70,7 +71,7 @@ export class OtherPlayer extends Entity {
     MainScene.grid.removeCharacter(this.id);
     MainScene.otherPlayers = MainScene.otherPlayers.filter((p) => p.id !== this.id);
     this.coordinatesText.destroy();
-    this.scene.events.removeListener('update', this.onUpdate, this);
+    this.scene.events.removeListener('update', this.onUpdate, this); // remove this listener, otherwise the game will crash once the object is destroyed and it tries to animate it
     super.destroy(fromScene);
   }
 
@@ -104,7 +105,7 @@ export class OtherPlayer extends Entity {
   public updateCoordinateTexts() {
     const gridPosition = MainScene.grid.getPosition(this.id);
 
-    this.coordinatesText.text = `${this.name} ${Math.round(gridPosition.x)}, ${Math.round(gridPosition.y)}`;
+    this.coordinatesText.text = `${this.name} ${gridPosition.x}, ${gridPosition.y}`;
     this.coordinatesText.x = this.x - this.coordinatesText.width / 2;
     this.coordinatesText.y = this.y - this.coordinatesText.height / 2;
   }

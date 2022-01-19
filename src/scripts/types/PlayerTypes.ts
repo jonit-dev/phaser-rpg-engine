@@ -14,6 +14,14 @@ export interface PlayerPositionPayload {
   direction: string;
   channelId: string;
   isMoving?: boolean;
+  cameraCoordinates: ICameraCoordinates;
+}
+
+export interface ICameraCoordinates {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
 export interface PlayerLogoutPayload {

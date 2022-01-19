@@ -9,7 +9,7 @@ import { Player } from '../objects/Players/Player';
 
 export default class MainScene extends Phaser.Scene {
   private player: Player;
-  private camera: Camera;
+  public static camera: Camera;
   public gridEngine;
   private map: DesertMapTileset;
   public static grid;
@@ -22,31 +22,16 @@ export default class MainScene extends Phaser.Scene {
   create() {
     this.map = new DesertMapTileset(this); // should come before player rendering, to avoid overlap
     this.physics.world.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT); //map size limits
-    MainScene.grid = this.gridEngine;
+
+    new GridManager(this, this.gridEngine, this.map.tilemap);
 
     this.player = new Player(this, PLAYER_START_POS_X, PLAYER_START_POS_Y, MainSceneData.assets.player.textureKey);
-    new GridManager(this, this.player, this.map.tilemap);
-    this.player.onSubscribeToEvents();
+    MainScene.camera = new Camera(this, this.player);
 
-    this.camera = new Camera(this, this.player);
-
-    // this.input.on(Phaser.Input.Events.POINTER_UP, (pointer: Phaser.Input.Pointer) => {
-    //   const { worldX, worldY } = pointer;
-
-    //   console.log(`Pointer up at ${worldX}, ${worldY}`);
-
-    //   const tile = this.map.tilemap.getTileAtWorldXY(worldX, worldY, true, undefined, '+1');
-
-    //   console.log(`here we have tile`);
-    //   console.log(tile);
-    //   console.log(tile.x, tile.y);
-
-    //   // use startVec and targetVec
-    // });
-  }
-
-  update() {
-    this.player.movements(this.gridEngine);
-    this.player.onPlayerUpdate();
+    setTimeout(() => {
+      //! This is necessary because the camera starts with 0,0,0,0 bounds at the first frame. So we cannot send this info to the server until we have it properly setup!
+      this.player.sendCreateSocketEvents();
+      this.player.onUpdateSocketEvents();
+    }, 100);
   }
 }

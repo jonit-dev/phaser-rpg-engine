@@ -2,6 +2,7 @@ import { animals, uniqueNamesGenerator } from 'unique-names-generator';
 import { v4 as uuidv4 } from 'uuid';
 import { AnimationDirection } from '../../../typings/AnimationTypes';
 import { Entity } from '../../abstractions/Entity';
+import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../../constants/playerConstants';
 import { MainSceneData } from '../../constants/scenes/MainSceneData';
 import { geckosClientHelper } from '../../game';
 import MainScene from '../../scenes/mainScene';
@@ -9,15 +10,14 @@ import { PlayerGeckosEvents, PlayerLogoutPayload, PlayerPositionPayload } from '
 import { OtherPlayer } from './OtherPlayer';
 
 export class Player extends Entity {
+  public static id = uuidv4();
+  public static speed = 2; //tiles per second
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private direction: AnimationDirection = 'down';
-  public speed: number = 20;
-  public static id = uuidv4();
   public name: string;
   private coordinatesText: Phaser.GameObjects.Text;
   private canMove = true;
   private movementIntervalSpeed = 25; //in ms
-  public static speed = 2; //tiles per second
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture, MainSceneData.assets);
@@ -29,17 +29,38 @@ export class Player extends Entity {
 
     this.cursors = this.scene.input.keyboard.createCursorKeys();
 
-    this.handleSocketEvents();
-
     this.coordinatesText = scene.add.text(0, 0, '', {
       color: 'red',
     });
     scene.add.container(0, 0, [this, this.coordinatesText]);
 
     console.log(`Player id ${Player.id} has been created`);
+
+    this.scene.events.addListener('update', this.onPlayerUpdate, this);
+
+    MainScene.grid.addCharacter({
+      id: 'player',
+      sprite: this,
+      // walkingAnimationMapping: 6,
+      startPosition: {
+        x: PLAYER_START_POS_X,
+        y: PLAYER_START_POS_Y,
+      },
+      speed: Player.speed,
+    });
   }
 
-  public onSubscribeToEvents() {
+  private onPlayerUpdate() {
+    const gridPosition = MainScene.grid.getPosition('player');
+
+    this.coordinatesText.text = `${this.name} | ${gridPosition.x}, ${gridPosition.y}`;
+    this.coordinatesText.x = this.x - this.coordinatesText.width / 2;
+    this.coordinatesText.y = this.y - this.coordinatesText.height / 2;
+
+    this.movements(MainScene.grid);
+  }
+
+  public onUpdateSocketEvents() {
     MainScene.grid.movementStarted().subscribe(({ charId, direction }) => {
       if (charId === 'player') {
         this.canMove = false;
@@ -53,6 +74,12 @@ export class Player extends Entity {
           name: this.name,
           channelId: geckosClientHelper.channelId,
           isMoving: true,
+          cameraCoordinates: {
+            x: MainScene.camera.worldViewWithOffset.x,
+            y: MainScene.camera.worldViewWithOffset.y,
+            width: MainScene.camera.worldViewWithOffset.width,
+            height: MainScene.camera.worldViewWithOffset.height,
+          },
         } as PlayerPositionPayload);
       }
     });
@@ -66,15 +93,7 @@ export class Player extends Entity {
     });
   }
 
-  public onPlayerUpdate() {
-    const gridPosition = MainScene.grid.getPosition('player');
-
-    this.coordinatesText.text = `${this.name} | ${gridPosition.x}, ${gridPosition.y}`;
-    this.coordinatesText.x = this.x - this.coordinatesText.width / 2;
-    this.coordinatesText.y = this.y - this.coordinatesText.height / 2;
-  }
-
-  public movements(gridEngine) {
+  private movements(gridEngine) {
     if (this.canMove) {
       const gridPosition = MainScene.grid.getPosition('player');
 
@@ -96,8 +115,9 @@ export class Player extends Entity {
     this.playAnimations(this.direction, gridEngine.isMoving('player'));
   }
 
-  public handleSocketEvents() {
+  public sendCreateSocketEvents() {
     // when creating a new player instance, warn the server so other players can be notified
+
     geckosClientHelper.channel.emit(
       PlayerGeckosEvents.Create,
       {
@@ -108,12 +128,17 @@ export class Player extends Entity {
         y: this.y,
         direction: this.direction,
         isMoving: false,
+        cameraCoordinates: {
+          x: MainScene.camera.worldViewWithOffset.x,
+          y: MainScene.camera.worldViewWithOffset.y,
+          width: MainScene.camera.worldViewWithOffset.width,
+          height: MainScene.camera.worldViewWithOffset.height,
+        },
       } as PlayerPositionPayload,
       {
         reliable: true,
       }
     );
-
     // when receiving a new player creation event, lets create his instance
 
     geckosClientHelper.channel.on(PlayerGeckosEvents.Create, (d) => {
