@@ -15,6 +15,8 @@ export class Player extends Entity {
   public static id = uuidv4();
   public name: string;
   private coordinatesText: Phaser.GameObjects.Text;
+  private canMove = true;
+  private movementIntervalSpeed = 25; //in ms
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture, MainSceneData.assets);
@@ -39,6 +41,7 @@ export class Player extends Entity {
   public onSubscribeToEvents() {
     MainScene.grid.movementStarted().subscribe(({ charId, direction }) => {
       if (charId === 'player') {
+        this.canMove = false;
         const gridPosition = MainScene.grid.getPosition('player');
 
         geckosClientHelper.channel.emit(PlayerGeckosEvents.PositionUpdate, {
@@ -49,10 +52,15 @@ export class Player extends Entity {
           name: this.name,
           channelId: geckosClientHelper.channelId,
           isMoving: true,
-        } as PlayerPositionPayload),
-          {
-            reliable: true,
-          };
+        } as PlayerPositionPayload);
+      }
+    });
+
+    MainScene.grid.movementStopped().subscribe(({ charId, direction }) => {
+      if (charId === 'player') {
+        setTimeout(() => {
+          this.canMove = true;
+        }, this.movementIntervalSpeed);
       }
     });
   }
@@ -66,18 +74,20 @@ export class Player extends Entity {
   }
 
   public movements(gridEngine) {
-    if (this.cursors.up.isDown && !gridEngine.isMoving('player')) {
-      gridEngine.move('player', 'up');
-      this.direction = 'up';
-    } else if (this.cursors.down.isDown && !gridEngine.isMoving('player')) {
-      this.direction = 'down';
-      gridEngine.move('player', 'down');
-    } else if (this.cursors.left.isDown && !gridEngine.isMoving('player')) {
-      this.direction = 'left';
-      gridEngine.move('player', 'left');
-    } else if (this.cursors.right.isDown && !gridEngine.isMoving('player')) {
-      this.direction = 'right';
-      gridEngine.move('player', 'right');
+    if (this.canMove) {
+      if (this.cursors.up.isDown && !gridEngine.isMoving('player')) {
+        gridEngine.move('player', 'up');
+        this.direction = 'up';
+      } else if (this.cursors.down.isDown && !gridEngine.isMoving('player')) {
+        this.direction = 'down';
+        gridEngine.move('player', 'down');
+      } else if (this.cursors.left.isDown && !gridEngine.isMoving('player')) {
+        this.direction = 'left';
+        gridEngine.move('player', 'left');
+      } else if (this.cursors.right.isDown && !gridEngine.isMoving('player')) {
+        this.direction = 'right';
+        gridEngine.move('player', 'right');
+      }
     }
 
     this.playAnimations(this.direction, gridEngine.isMoving('player'));
