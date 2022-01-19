@@ -17,6 +17,7 @@ export class Player extends Entity {
   private coordinatesText: Phaser.GameObjects.Text;
   private canMove = true;
   private movementIntervalSpeed = 25; //in ms
+  public static speed = 2; //tiles per second
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture, MainSceneData.assets);
@@ -75,6 +76,8 @@ export class Player extends Entity {
 
   public movements(gridEngine) {
     if (this.canMove) {
+      const gridPosition = MainScene.grid.getPosition('player');
+
       if (this.cursors.up.isDown && !gridEngine.isMoving('player')) {
         gridEngine.move('player', 'up');
         this.direction = 'up';

@@ -13,6 +13,7 @@ export class GridManager {
             x: PLAYER_START_POS_X,
             y: PLAYER_START_POS_Y,
           },
+          speed: Player.speed,
         },
       ],
     };

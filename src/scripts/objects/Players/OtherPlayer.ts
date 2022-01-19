@@ -8,7 +8,7 @@ import { PlayerGeckosEvents, PlayerPositionPayload } from '../../types/PlayerTyp
 export class OtherPlayer extends Entity {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private direction: AnimationDirection = 'down';
-  public speed: number = 20;
+  public speed: number = 2;
   private coordinatesText: Phaser.GameObjects.Text;
   public id: string;
   public name: string;
@@ -36,6 +36,7 @@ export class OtherPlayer extends Entity {
         x,
         y,
       },
+      speed: this.speed,
     });
 
     this.coordinatesText = scene.add.text(0, 0, '', {
@@ -47,6 +48,20 @@ export class OtherPlayer extends Entity {
     console.log(`💡 Other player(${this.name}) id ${this.id} has been created and added to position: ${x}, ${y}`);
 
     this.handleSocketEvents();
+
+    this.scene.events.addListener('update', this.onUpdate, this); // this should be called inside the scene
+  }
+
+  public onUpdate() {
+    this.animations();
+    this.updateCoordinateTexts();
+
+    // delete itself if too far, to preserve memory
+    const isOnView = this.scene.cameras.main.worldView.contains(this.x, this.y);
+
+    if (!isOnView) {
+      this.destroy();
+    }
   }
 
   destroy(fromScene?: boolean): void {
@@ -76,18 +91,6 @@ export class OtherPlayer extends Entity {
         }
       }
     });
-  }
-
-  protected preUpdate(time: number, delta: number): void {
-    this.animations();
-    this.updateCoordinateTexts();
-
-    // delete itself if too far, to preserve memory
-    const isOnView = this.scene.cameras.main.worldView.contains(this.x, this.y);
-
-    if (!isOnView) {
-      this.destroy();
-    }
   }
 
   public animations() {
