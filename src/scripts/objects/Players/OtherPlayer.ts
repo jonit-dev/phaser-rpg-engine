@@ -53,14 +53,16 @@ export class OtherPlayer extends Entity {
   }
 
   public onUpdate() {
-    this.animations();
-    this.updateCoordinateTexts();
+    if (MainScene.grid.hasCharacter(this.id)) {
+      this.animations();
+      this.updateCoordinateTexts();
 
-    // delete itself if too far, to preserve memory
-    const isOnView = this.scene.cameras.main.worldView.contains(this.x, this.y);
+      // delete itself if too far, to preserve memory
+      const isOnView = this.scene.cameras.main.worldView.contains(this.x + 64, this.y + 64);
 
-    if (!isOnView) {
-      this.destroy();
+      if (!isOnView) {
+        this.destroy();
+      }
     }
   }
 
@@ -68,6 +70,7 @@ export class OtherPlayer extends Entity {
     MainScene.grid.removeCharacter(this.id);
     MainScene.otherPlayers = MainScene.otherPlayers.filter((p) => p.id !== this.id);
     this.coordinatesText.destroy();
+    this.scene.events.removeListener('update', this.onUpdate, this);
     super.destroy(fromScene);
   }
 
@@ -94,6 +97,7 @@ export class OtherPlayer extends Entity {
   }
 
   public animations() {
+    // this avoids crashes if instance is destroyed
     this.playAnimations(this.direction, MainScene.grid.isMoving(this.id));
   }
 
