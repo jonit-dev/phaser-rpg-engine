@@ -6,11 +6,6 @@ export enum PlayerGeckosEvents {
   PrivateMessage = 'PrivateMessage',
 }
 
-export interface PlayerCoordinatesSync {
-  id: string;
-  x: number;
-  y: number;
-}
 export interface PlayerPositionPayload {
   id: string;
   name: string;
