@@ -14,7 +14,7 @@ export class Camera {
   private debugText: Phaser.GameObjects.Text;
   private player: Player;
   private scene: Phaser.Scene;
-  private debugMode: boolean = true;
+  private debugMode: boolean = false;
 
   constructor(scene: Phaser.Scene, player: Player) {
     this.player = player;

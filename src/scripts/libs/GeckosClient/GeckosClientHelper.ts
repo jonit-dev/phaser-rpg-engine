@@ -34,10 +34,10 @@ export class GeckosClientHelper {
 
   public disconnect() {
     this.channel.emit(
-      PlayerGeckosEvents.Logout,
+      PlayerGeckosEvents.PlayerLogout,
       {
         id: Player.id,
-      } as unknown as PlayerGeckosEvents.Logout,
+      } as unknown as PlayerGeckosEvents.PlayerLogout,
       {
         reliable: true,
       }

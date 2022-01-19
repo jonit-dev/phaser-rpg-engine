@@ -6,7 +6,7 @@ import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../../constants/playerCo
 import { MainSceneData } from '../../constants/scenes/MainSceneData';
 import { geckosClientHelper } from '../../game';
 import MainScene from '../../scenes/mainScene';
-import { PlayerGeckosEvents, PlayerLogoutPayload, PlayerPositionPayload } from '../../types/PlayerTypes';
+import { IConnectedPlayer, PlayerGeckosEvents, PlayerLogoutPayload } from '../../types/PlayerTypes';
 import { OtherPlayer } from './OtherPlayer';
 
 export class Player extends Entity {
@@ -66,7 +66,7 @@ export class Player extends Entity {
         this.canMove = false;
         const gridPosition = MainScene.grid.getPosition('player');
 
-        geckosClientHelper.channel.emit(PlayerGeckosEvents.PositionUpdate, {
+        geckosClientHelper.channel.emit(PlayerGeckosEvents.PlayerPositionUpdate, {
           id: Player.id,
           x: gridPosition.x,
           y: gridPosition.y,
@@ -80,7 +80,7 @@ export class Player extends Entity {
             width: MainScene.camera.worldViewWithOffset.width,
             height: MainScene.camera.worldViewWithOffset.height,
           },
-        } as PlayerPositionPayload);
+        } as IConnectedPlayer);
       }
     });
 
@@ -119,7 +119,7 @@ export class Player extends Entity {
     // when creating a new player instance, warn the server so other players can be notified
 
     geckosClientHelper.channel.emit(
-      PlayerGeckosEvents.Create,
+      PlayerGeckosEvents.PlayerCreate,
       {
         id: Player.id,
         name: this.name,
@@ -134,16 +134,16 @@ export class Player extends Entity {
           width: MainScene.camera.worldViewWithOffset.width,
           height: MainScene.camera.worldViewWithOffset.height,
         },
-      } as PlayerPositionPayload,
+      } as IConnectedPlayer,
       {
         reliable: true,
       }
     );
     // when receiving a new player creation event, lets create his instance
 
-    geckosClientHelper.channel.on(PlayerGeckosEvents.Create, (d) => {
-      const data = d as PlayerPositionPayload;
-      console.log(`Event ${PlayerGeckosEvents.Create} received with data: ${JSON.stringify(data)}`);
+    geckosClientHelper.channel.on(PlayerGeckosEvents.PlayerCreate, (d) => {
+      const data = d as IConnectedPlayer;
+      console.log(`Event ${PlayerGeckosEvents.PlayerCreate} received with data: ${JSON.stringify(data)}`);
 
       const otherPlayer = new OtherPlayer(
         this.scene as MainScene,
@@ -158,13 +158,13 @@ export class Player extends Entity {
       MainScene.otherPlayers.push(otherPlayer);
     });
 
-    geckosClientHelper.channel.on(PlayerGeckosEvents.PrivateMessage, (data) => {
+    geckosClientHelper.channel.on(PlayerGeckosEvents.PlayerPrivateMessage, (data) => {
       console.log(data);
     });
 
     // if received position update event, but other player wasn't created yet, create it
-    geckosClientHelper.channel.on(PlayerGeckosEvents.PositionUpdate, (d) => {
-      const data = d as PlayerPositionPayload;
+    geckosClientHelper.channel.on(PlayerGeckosEvents.PlayerPositionUpdate, (d) => {
+      const data = d as IConnectedPlayer;
 
       const foundPlayer = MainScene.otherPlayers.find((p) => p.id === data.id);
 
@@ -182,7 +182,7 @@ export class Player extends Entity {
       }
     });
 
-    geckosClientHelper.channel.on(PlayerGeckosEvents.Logout, (d) => {
+    geckosClientHelper.channel.on(PlayerGeckosEvents.PlayerLogout, (d) => {
       console.log(`Received Logout event: ${JSON.stringify(d)}`);
       const data = d as PlayerLogoutPayload;
 

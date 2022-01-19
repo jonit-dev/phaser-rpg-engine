@@ -1,20 +1,24 @@
+//@ts-ignore
 export enum PlayerGeckosEvents {
-  Create = 'Create',
-  PositionUpdate = 'PositionUpdate',
-  CoordinateSync = 'CoordinateSync',
-  Logout = 'Logout',
-  PrivateMessage = 'PrivateMessage',
+  PlayerCreate = 'PlayerCreate',
+  PlayerPositionUpdate = 'PlayerPositionUpdate',
+  PlayerLogout = 'PlayerLogout',
+  PlayerPrivateMessage = 'PlayerPrivateMessage',
 }
 
-export interface PlayerPositionPayload {
+export interface IConnectedPlayer {
   id: string;
   name: string;
   x: number;
   y: number;
-  direction: string;
   channelId: string;
+  direction?: string;
   isMoving?: boolean;
   cameraCoordinates: ICameraCoordinates;
+}
+
+export interface PlayerLogoutPayload {
+  id: string;
 }
 
 export interface ICameraCoordinates {
@@ -22,8 +26,4 @@ export interface ICameraCoordinates {
   y: number;
   width: number;
   height: number;
-}
-
-export interface PlayerLogoutPayload {
-  id: string;
 }

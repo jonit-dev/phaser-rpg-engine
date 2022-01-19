@@ -4,7 +4,7 @@ import { MainSceneData } from '../../constants/scenes/MainSceneData';
 import { GRID_HEIGHT, GRID_WIDTH } from '../../constants/worldConstants';
 import { geckosClientHelper } from '../../game';
 import MainScene from '../../scenes/mainScene';
-import { PlayerGeckosEvents, PlayerPositionPayload } from '../../types/PlayerTypes';
+import { IConnectedPlayer, PlayerGeckosEvents } from '../../types/PlayerTypes';
 
 export class OtherPlayer extends Entity {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -77,8 +77,8 @@ export class OtherPlayer extends Entity {
   }
 
   public handleSocketEvents() {
-    geckosClientHelper.channel.on(PlayerGeckosEvents.PositionUpdate, (d) => {
-      const data = d as PlayerPositionPayload;
+    geckosClientHelper.channel.on(PlayerGeckosEvents.PlayerPositionUpdate, (d) => {
+      const data = d as IConnectedPlayer;
 
       if (data.id === this.id) {
         console.log(`received position update for other player ${data.id}`);
