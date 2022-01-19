@@ -15,6 +15,7 @@ export interface PlayerCreationPayload {
 
 export interface PlayerPositionPayload {
   id: string;
+  name: string;
   x: number;
   y: number;
   direction: string;

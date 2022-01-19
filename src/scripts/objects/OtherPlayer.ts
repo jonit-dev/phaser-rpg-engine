@@ -39,6 +39,13 @@ export class OtherPlayer extends Entity {
     this.handleIOEvents();
   }
 
+  destroy(fromScene?: boolean): void {
+    MainScene.grid.removeCharacter(this.id);
+    MainScene.otherPlayers = MainScene.otherPlayers.filter((p) => p.id !== this.id);
+    this.coordinatesText.destroy();
+    super.destroy(fromScene);
+  }
+
   public handleIOEvents() {
     geckosClientHelper.channel.on(PlayerGeckosEvents.PositionUpdate, (d) => {
       const data = d as PlayerPositionPayload;

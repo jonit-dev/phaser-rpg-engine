@@ -5,7 +5,12 @@ import { Entity as Entity } from '../abstractions/Entity';
 import { MainSceneData } from '../constants/scenes/MainSceneData';
 import { geckosClientHelper } from '../game';
 import MainScene from '../scenes/mainScene';
-import { PlayerCreationPayload, PlayerGeckosEvents, PlayerPositionPayload } from '../types/PlayerTypes';
+import {
+  PlayerCreationPayload,
+  PlayerGeckosEvents,
+  PlayerLogoutPayload,
+  PlayerPositionPayload,
+} from '../types/PlayerTypes';
 import { OtherPlayer } from './OtherPlayer';
 
 export class Player extends Entity {
@@ -46,6 +51,7 @@ export class Player extends Entity {
           x: gridPosition.x,
           y: gridPosition.y,
           direction,
+          name: this.name,
         } as PlayerPositionPayload);
       }
     });
@@ -88,15 +94,40 @@ export class Player extends Entity {
     } as PlayerCreationPayload);
 
     // when receiving a new player creation event, lets create his instance
+
     geckosClientHelper.channel.on(PlayerGeckosEvents.Create, (d) => {
       const data = d as PlayerCreationPayload;
       console.log(`Event ${PlayerGeckosEvents.Create} received with data: ${JSON.stringify(data)}`);
 
       const otherPlayer = new OtherPlayer(this.scene as MainScene, data.id, data.name, data.x, data.y, 'player');
+
+      MainScene.otherPlayers.push(otherPlayer);
     });
 
     geckosClientHelper.channel.on(PlayerGeckosEvents.PrivateMessage, (data) => {
       console.log(data);
+    });
+
+    // if received position update event, but other player wasn't created yet, create it
+    geckosClientHelper.channel.on(PlayerGeckosEvents.PositionUpdate, (d) => {
+      const data = d as PlayerPositionPayload;
+
+      const foundPlayer = MainScene.otherPlayers.find((p) => p.id === data.id);
+
+      if (!foundPlayer) {
+        const otherPlayer = new OtherPlayer(this.scene as MainScene, data.id, data.name, data.x, data.y, 'player');
+      }
+    });
+
+    geckosClientHelper.channel.on(PlayerGeckosEvents.Logout, (d) => {
+      console.log(`Received Logout event: ${JSON.stringify(d)}`);
+      const data = d as PlayerLogoutPayload;
+
+      const foundPlayer = MainScene.otherPlayers.find((p) => p.id === data.id);
+
+      if (foundPlayer) {
+        foundPlayer.destroy();
+      }
     });
   }
 }

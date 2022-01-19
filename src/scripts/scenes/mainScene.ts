@@ -4,6 +4,7 @@ import { WORLD_HEIGHT, WORLD_WIDTH } from '../constants/worldConstants';
 import { Camera } from '../objects/Camera';
 import { GridManager } from '../objects/GridManager';
 import { DesertMapTileset } from '../objects/maps/DesertTileset';
+import { OtherPlayer } from '../objects/OtherPlayer';
 import { Player } from '../objects/Player';
 
 export default class MainScene extends Phaser.Scene {
@@ -12,6 +13,7 @@ export default class MainScene extends Phaser.Scene {
   public gridEngine;
   private map: DesertMapTileset;
   public static grid;
+  public static otherPlayers: OtherPlayer[] = [];
 
   constructor() {
     super({ key: MainSceneData.key });
