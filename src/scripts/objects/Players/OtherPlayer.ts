@@ -1,6 +1,7 @@
 import { AnimationDirection } from '../../../typings/AnimationTypes';
 import { Entity as Entity } from '../../abstractions/Entity';
 import { MainSceneData } from '../../constants/scenes/MainSceneData';
+import { GRID_HEIGHT, GRID_WIDTH } from '../../constants/worldConstants';
 import { geckosClientHelper } from '../../game';
 import MainScene from '../../scenes/mainScene';
 import { PlayerGeckosEvents, PlayerPositionPayload } from '../../types/PlayerTypes';
@@ -82,6 +83,9 @@ export class OtherPlayer extends Entity {
       if (data.id === this.id) {
         console.log(`received position update for other player ${data.id}`);
         console.log('pos', data);
+
+        this.x = data.x * GRID_WIDTH;
+        this.y = data.y * GRID_HEIGHT;
 
         MainScene.grid.setPosition(this.id, {
           x: data.x,

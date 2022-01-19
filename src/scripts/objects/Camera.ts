@@ -50,8 +50,8 @@ export class Camera {
   private onUpdate() {
     this.worldViewWithOffset.x = this.camera.worldView.x - CAMERA_VIEWPORT_OFFSET_X;
     this.worldViewWithOffset.y = this.camera.worldView.y - CAMERA_VIEWPORT_OFFSET_Y;
-    this.worldViewWithOffset.width = this.camera.worldView.width + CAMERA_VIEWPORT_OFFSET_X * 2;
-    this.worldViewWithOffset.height = this.camera.worldView.height + CAMERA_VIEWPORT_OFFSET_Y * 2;
+    this.worldViewWithOffset.width = this.camera.worldView.width + CAMERA_VIEWPORT_OFFSET_X;
+    this.worldViewWithOffset.height = this.camera.worldView.height + CAMERA_VIEWPORT_OFFSET_Y;
 
     if (this.debugMode) {
       this.onUpdateDebugInfo();
