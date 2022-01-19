@@ -49,7 +49,10 @@ export class Player extends Entity {
           name: this.name,
           channelId: geckosClientHelper.channelId,
           isMoving: true,
-        } as PlayerPositionPayload);
+        } as PlayerPositionPayload),
+          {
+            reliable: true,
+          };
       }
     });
   }
@@ -82,15 +85,21 @@ export class Player extends Entity {
 
   public handleSocketEvents() {
     // when creating a new player instance, warn the server so other players can be notified
-    geckosClientHelper.channel.emit(PlayerGeckosEvents.Create, {
-      id: Player.id,
-      name: this.name,
-      channelId: geckosClientHelper.channelId,
-      x: this.x,
-      y: this.y,
-      direction: this.direction,
-      isMoving: false,
-    } as PlayerPositionPayload);
+    geckosClientHelper.channel.emit(
+      PlayerGeckosEvents.Create,
+      {
+        id: Player.id,
+        name: this.name,
+        channelId: geckosClientHelper.channelId,
+        x: this.x,
+        y: this.y,
+        direction: this.direction,
+        isMoving: false,
+      } as PlayerPositionPayload,
+      {
+        reliable: true,
+      }
+    );
 
     // when receiving a new player creation event, lets create his instance
 

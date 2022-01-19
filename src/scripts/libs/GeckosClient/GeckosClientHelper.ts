@@ -33,9 +33,15 @@ export class GeckosClientHelper {
   }
 
   public disconnect() {
-    this.channel.emit(PlayerGeckosEvents.Logout, {
-      id: Player.id,
-    } as unknown as PlayerGeckosEvents.Logout);
+    this.channel.emit(
+      PlayerGeckosEvents.Logout,
+      {
+        id: Player.id,
+      } as unknown as PlayerGeckosEvents.Logout,
+      {
+        reliable: true,
+      }
+    );
 
     setTimeout(() => {
       this.channel.close();
