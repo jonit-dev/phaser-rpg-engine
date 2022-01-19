@@ -6,7 +6,7 @@ import { MainSceneData } from '../../constants/scenes/MainSceneData';
 import { geckosClientHelper } from '../../game';
 import MainScene from '../../scenes/mainScene';
 import {
-  PlayerCreationPayload,
+  PlayerCoordinatesSync,
   PlayerGeckosEvents,
   PlayerLogoutPayload,
   PlayerPositionPayload,
@@ -16,7 +16,7 @@ import { OtherPlayer } from './OtherPlayer';
 export class Player extends Entity {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private direction: AnimationDirection = 'down';
-  public speed: number = 200;
+  public speed: number = 20;
   public static id = uuidv4();
   public name: string;
   private coordinatesText: Phaser.GameObjects.Text;
@@ -31,7 +31,7 @@ export class Player extends Entity {
 
     this.cursors = this.scene.input.keyboard.createCursorKeys();
 
-    this.handleGeckoIOEvents();
+    this.handleSocketEvents();
 
     this.coordinatesText = scene.add.text(0, 0, '', {
       color: 'red',
@@ -46,13 +46,29 @@ export class Player extends Entity {
       if (charId === 'player') {
         const gridPosition = MainScene.grid.getPosition('player');
 
+        console.log(gridPosition);
+
         geckosClientHelper.channel.emit(PlayerGeckosEvents.PositionUpdate, {
           id: Player.id,
           x: gridPosition.x,
           y: gridPosition.y,
           direction,
           name: this.name,
+          channelId: geckosClientHelper.channelId,
+          isMoving: true,
         } as PlayerPositionPayload);
+      }
+    });
+
+    MainScene.grid.movementStopped().subscribe(({ charId, direction }) => {
+      if (charId === 'player') {
+        const gridPosition = MainScene.grid.getPosition('player');
+
+        geckosClientHelper.channel.emit(PlayerGeckosEvents.CoordinateSync, {
+          id: Player.id,
+          x: gridPosition.x,
+          y: gridPosition.y,
+        } as PlayerCoordinatesSync);
       }
     });
   }
@@ -83,7 +99,7 @@ export class Player extends Entity {
     this.playAnimations(this.direction, gridEngine.isMoving('player'));
   }
 
-  public handleGeckoIOEvents() {
+  public handleSocketEvents() {
     // when creating a new player instance, warn the server so other players can be notified
     geckosClientHelper.channel.emit(PlayerGeckosEvents.Create, {
       id: Player.id,
@@ -91,15 +107,25 @@ export class Player extends Entity {
       channelId: geckosClientHelper.channelId,
       x: this.x,
       y: this.y,
-    } as PlayerCreationPayload);
+      direction: this.direction,
+      isMoving: false,
+    } as PlayerPositionPayload);
 
     // when receiving a new player creation event, lets create his instance
 
     geckosClientHelper.channel.on(PlayerGeckosEvents.Create, (d) => {
-      const data = d as PlayerCreationPayload;
+      const data = d as PlayerPositionPayload;
       console.log(`Event ${PlayerGeckosEvents.Create} received with data: ${JSON.stringify(data)}`);
 
-      const otherPlayer = new OtherPlayer(this.scene as MainScene, data.id, data.name, data.x, data.y, 'player');
+      const otherPlayer = new OtherPlayer(
+        this.scene as MainScene,
+        data.id,
+        data.name,
+        data.x,
+        data.y,
+        data.direction as AnimationDirection,
+        'player'
+      );
 
       MainScene.otherPlayers.push(otherPlayer);
     });
@@ -115,7 +141,16 @@ export class Player extends Entity {
       const foundPlayer = MainScene.otherPlayers.find((p) => p.id === data.id);
 
       if (!foundPlayer) {
-        const otherPlayer = new OtherPlayer(this.scene as MainScene, data.id, data.name, data.x, data.y, 'player');
+        const otherPlayer = new OtherPlayer(
+          this.scene as MainScene,
+          data.id,
+          data.name,
+          data.x,
+          data.y,
+          data.direction as AnimationDirection,
+          'player'
+        );
+        MainScene.otherPlayers.push(otherPlayer);
       }
     });
 

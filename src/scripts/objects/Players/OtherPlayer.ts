@@ -8,13 +8,26 @@ import { PlayerGeckosEvents, PlayerPositionPayload } from '../../types/PlayerTyp
 export class OtherPlayer extends Entity {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private direction: AnimationDirection = 'down';
-  public speed: number = 200;
+  public speed: number = 20;
   private coordinatesText: Phaser.GameObjects.Text;
   public id: string;
   public name: string;
 
-  constructor(scene: MainScene, id: string, name: string, x: number, y: number, texture: string) {
+  constructor(
+    scene: MainScene,
+    id: string,
+    name: string,
+    x: number,
+    y: number,
+    direction: AnimationDirection,
+    texture: string
+  ) {
     super(scene, x, y, texture, MainSceneData.assets);
+
+    this.scene = scene;
+    this.direction = direction;
+    this.id = id;
+    this.name = name;
 
     MainScene.grid.addCharacter({
       id,
@@ -25,9 +38,6 @@ export class OtherPlayer extends Entity {
       },
     });
 
-    this.id = id;
-    this.name = name;
-
     this.coordinatesText = scene.add.text(0, 0, '', {
       color: 'red',
     });
@@ -36,7 +46,7 @@ export class OtherPlayer extends Entity {
 
     console.log(`💡 Other player(${this.name}) id ${this.id} has been created and added to position: ${x}, ${y}`);
 
-    this.handleIOEvents();
+    this.handleSocketEvents();
   }
 
   destroy(fromScene?: boolean): void {
@@ -46,7 +56,7 @@ export class OtherPlayer extends Entity {
     super.destroy(fromScene);
   }
 
-  public handleIOEvents() {
+  public handleSocketEvents() {
     geckosClientHelper.channel.on(PlayerGeckosEvents.PositionUpdate, (d) => {
       const data = d as PlayerPositionPayload;
 
@@ -61,18 +71,27 @@ export class OtherPlayer extends Entity {
 
         this.direction = data.direction as AnimationDirection;
 
-        MainScene.grid.move(this.id, data.direction);
+        if (data.isMoving) {
+          MainScene.grid.move(this.id, data.direction);
+        }
       }
     });
   }
 
   protected preUpdate(time: number, delta: number): void {
-    this.animations(MainScene.grid);
+    this.animations();
     this.updateCoordinateTexts();
+
+    // delete itself if too far, to preserve memory
+    const isOnView = this.scene.cameras.main.worldView.contains(this.x, this.y);
+
+    if (!isOnView) {
+      this.destroy();
+    }
   }
 
-  public animations(gridEngine) {
-    this.playAnimations(this.direction, gridEngine.isMoving(this.id));
+  public animations() {
+    this.playAnimations(this.direction, MainScene.grid.isMoving(this.id));
   }
 
   public updateCoordinateTexts() {

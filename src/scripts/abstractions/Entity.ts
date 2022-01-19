@@ -45,10 +45,14 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
   }
 
   public playAnimations(direction: AnimationDirection, isMoving: boolean) {
-    if (isMoving) {
-      this.anims.play(`${this.textureKey}_${direction}_walking`, true);
+    if (direction) {
+      if (isMoving) {
+        this.anims.play(`${this.textureKey}_${direction}_walking`, true);
+      } else {
+        this.anims.play(`${this.textureKey}_${direction}_standing`, false);
+      }
     } else {
-      this.anims.play(`${this.textureKey}_${direction}_standing`, false);
+      this.anims.play(`${this.textureKey}_down_standing`, false);
     }
   }
 }
