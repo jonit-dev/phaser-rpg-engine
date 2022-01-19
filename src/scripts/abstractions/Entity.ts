@@ -29,7 +29,7 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
           start: data.walking[0],
           end: data.walking[1],
         }),
-        frameRate: 10,
+        frameRate: 6,
         repeat: -1,
       });
 
@@ -38,7 +38,7 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
         frames: this.scene.anims.generateFrameNumbers(this.assetData[this.textureKey].textureKey, {
           start: data.standing as number,
         }),
-        frameRate: 10,
+        frameRate: 2,
         repeat: -1,
       });
     }

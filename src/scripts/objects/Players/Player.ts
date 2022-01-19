@@ -5,12 +5,7 @@ import { Entity } from '../../abstractions/Entity';
 import { MainSceneData } from '../../constants/scenes/MainSceneData';
 import { geckosClientHelper } from '../../game';
 import MainScene from '../../scenes/mainScene';
-import {
-  PlayerCoordinatesSync,
-  PlayerGeckosEvents,
-  PlayerLogoutPayload,
-  PlayerPositionPayload,
-} from '../../types/PlayerTypes';
+import { PlayerGeckosEvents, PlayerLogoutPayload, PlayerPositionPayload } from '../../types/PlayerTypes';
 import { OtherPlayer } from './OtherPlayer';
 
 export class Player extends Entity {
@@ -46,8 +41,6 @@ export class Player extends Entity {
       if (charId === 'player') {
         const gridPosition = MainScene.grid.getPosition('player');
 
-        console.log(gridPosition);
-
         geckosClientHelper.channel.emit(PlayerGeckosEvents.PositionUpdate, {
           id: Player.id,
           x: gridPosition.x,
@@ -57,18 +50,6 @@ export class Player extends Entity {
           channelId: geckosClientHelper.channelId,
           isMoving: true,
         } as PlayerPositionPayload);
-      }
-    });
-
-    MainScene.grid.movementStopped().subscribe(({ charId, direction }) => {
-      if (charId === 'player') {
-        const gridPosition = MainScene.grid.getPosition('player');
-
-        geckosClientHelper.channel.emit(PlayerGeckosEvents.CoordinateSync, {
-          id: Player.id,
-          x: gridPosition.x,
-          y: gridPosition.y,
-        } as PlayerCoordinatesSync);
       }
     });
   }
