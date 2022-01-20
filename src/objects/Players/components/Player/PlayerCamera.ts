@@ -1,4 +1,4 @@
-import { IComponent } from '../../../abstractions/ComponentService';
+import { IComponent } from '../../../../abstractions/ComponentService';
 import {
   CAMERA_VIEWPORT_HEIGHT,
   CAMERA_VIEWPORT_OFFSET_X,
@@ -7,8 +7,8 @@ import {
   GRID_WIDTH,
   WORLD_HEIGHT,
   WORLD_WIDTH,
-} from '../../../constants/worldConstants';
-import { Player } from '../Player';
+} from '../../../../constants/worldConstants';
+import { Player } from '../../Player';
 
 export class PlayerCamera implements IComponent {
   private gameObject: Player;

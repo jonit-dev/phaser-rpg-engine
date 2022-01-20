@@ -1,11 +1,11 @@
-import { IComponent } from '../../../abstractions/ComponentService';
-import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../../../constants/playerConstants';
-import { geckosClientHelper } from '../../../game';
-import MainScene from '../../../scenes/mainScene';
-import { AnimationDirection } from '../../../typings/AnimationTypes';
-import { IConnectedPlayer, PlayerGeckosEvents, PlayerLogoutPayload } from '../../../typings/PlayerTypes';
-import { OtherPlayer } from '../OtherPlayer';
-import { Player } from '../Player';
+import { IComponent } from '../../../../abstractions/ComponentService';
+import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../../../../constants/playerConstants';
+import { geckosClientHelper } from '../../../../game';
+import MainScene from '../../../../scenes/mainScene';
+import { AnimationDirection } from '../../../../typings/AnimationTypes';
+import { IConnectedPlayer, PlayerGeckosEvents, PlayerLogoutPayload } from '../../../../typings/PlayerTypes';
+import { OtherPlayer } from '../../OtherPlayer';
+import { Player } from '../../Player';
 import { PlayerCamera } from './PlayerCamera';
 
 export class PlayerMovement implements IComponent {

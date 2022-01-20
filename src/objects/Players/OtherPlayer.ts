@@ -5,7 +5,7 @@ import { geckosClientHelper } from '../../game';
 import MainScene from '../../scenes/mainScene';
 import { AnimationDirection } from '../../typings/AnimationTypes';
 import { ICameraCoordinates, IConnectedPlayer, PlayerGeckosEvents } from '../../typings/PlayerTypes';
-import { PlayerCamera } from './components/PlayerCamera';
+import { PlayerCamera } from './components/Player/PlayerCamera';
 
 export class OtherPlayer extends Entity {
   private direction: AnimationDirection = 'down';
