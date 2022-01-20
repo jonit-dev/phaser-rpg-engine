@@ -9,5 +9,5 @@ export const GRID_HEIGHT = 32;
 
 // we have a multiplier because just adding a grid width/height is not enough for a good offset. Numbers < 10 can cause issues
 
-export const CAMERA_VIEWPORT_OFFSET_X = GRID_WIDTH * 10;
-export const CAMERA_VIEWPORT_OFFSET_Y = GRID_HEIGHT * 10;
+export const CAMERA_VIEWPORT_OFFSET_X = GRID_WIDTH * 2;
+export const CAMERA_VIEWPORT_OFFSET_Y = GRID_HEIGHT * 2;

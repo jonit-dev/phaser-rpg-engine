@@ -6,6 +6,7 @@ import { AnimationDirection } from '../../../typings/AnimationTypes';
 import { IConnectedPlayer, PlayerGeckosEvents, PlayerLogoutPayload } from '../../../typings/PlayerTypes';
 import { OtherPlayer } from '../OtherPlayer';
 import { Player } from '../Player';
+import { PlayerCamera } from './PlayerCamera';
 
 export class PlayerMovement implements IComponent {
   private gameObject: Player;
@@ -16,6 +17,7 @@ export class PlayerMovement implements IComponent {
   private direction: AnimationDirection = 'down';
   private canMove = true;
   private movementIntervalSpeed = 25; //in ms
+  private camera: Phaser.Cameras.Scene2D.Camera;
 
   public init(targetObject: Player) {
     this.gameObject = targetObject;
@@ -37,6 +39,8 @@ export class PlayerMovement implements IComponent {
   }
 
   public start() {
+    this.camera = this.gameObject.scene.cameras.main;
+
     this.onSocketEmitCreateEvent();
     this.onSocketReceiveCreateEvent();
     this.onSocketPositionUpdate();
@@ -77,10 +81,10 @@ export class PlayerMovement implements IComponent {
           channelId: geckosClientHelper.channelId,
           isMoving: true,
           cameraCoordinates: {
-            x: MainScene.camera.worldViewWithOffset.x,
-            y: MainScene.camera.worldViewWithOffset.y,
-            width: MainScene.camera.worldViewWithOffset.width,
-            height: MainScene.camera.worldViewWithOffset.height,
+            x: PlayerCamera.worldViewWithOffset.x,
+            y: PlayerCamera.worldViewWithOffset.y,
+            width: PlayerCamera.worldViewWithOffset.width,
+            height: PlayerCamera.worldViewWithOffset.height,
           },
         } as IConnectedPlayer);
       }
@@ -116,27 +120,29 @@ export class PlayerMovement implements IComponent {
   }
 
   private onSocketEmitCreateEvent() {
-    geckosClientHelper.channel.emit(
-      PlayerGeckosEvents.PlayerCreate,
-      {
-        id: Player.id,
-        name: this.gameObject.name,
-        channelId: geckosClientHelper.channelId,
-        x: this.gameObject.x,
-        y: this.gameObject.y,
-        direction: this.direction,
-        isMoving: false,
-        cameraCoordinates: {
-          x: MainScene.camera.worldViewWithOffset.x,
-          y: MainScene.camera.worldViewWithOffset.y,
-          width: MainScene.camera.worldViewWithOffset.width,
-          height: MainScene.camera.worldViewWithOffset.height,
-        },
-      } as IConnectedPlayer,
-      {
-        reliable: true,
-      }
-    );
+    setTimeout(() => {
+      geckosClientHelper.channel.emit(
+        PlayerGeckosEvents.PlayerCreate,
+        {
+          id: Player.id,
+          name: this.gameObject.name,
+          channelId: geckosClientHelper.channelId,
+          x: this.gameObject.x,
+          y: this.gameObject.y,
+          direction: this.direction,
+          isMoving: false,
+          cameraCoordinates: {
+            x: PlayerCamera.worldViewWithOffset.x,
+            y: PlayerCamera.worldViewWithOffset.y,
+            width: PlayerCamera.worldViewWithOffset.width,
+            height: PlayerCamera.worldViewWithOffset.height,
+          },
+        } as IConnectedPlayer,
+        {
+          reliable: true,
+        }
+      );
+    }, 100);
   }
 
   private onSocketReceiveCreateEvent() {

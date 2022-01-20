@@ -1,7 +1,7 @@
 import { ComponentsScene } from '../abstractions/CustomScene';
 import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../constants/playerConstants';
 import { MainSceneData } from '../constants/scenes/MainSceneData';
-import { CAMERA_VIEWPORT_HEIGHT, CAMERA_VIEWPORT_WIDTH, WORLD_HEIGHT, WORLD_WIDTH } from '../constants/worldConstants';
+import { WORLD_HEIGHT, WORLD_WIDTH } from '../constants/worldConstants';
 import { DesertMapTileset } from '../maps/DesertTileset';
 import { CustomCamera } from '../objects/CustomCamera';
 import { GridManager } from '../objects/GridManager';
@@ -25,8 +25,6 @@ export default class MainScene extends ComponentsScene {
     this.physics.world.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT); //map size limits
 
     new GridManager(this, this.gridEngine, this.map.tilemap);
-
-    MainScene.camera = new CustomCamera(this, 0, 0, CAMERA_VIEWPORT_WIDTH, CAMERA_VIEWPORT_HEIGHT);
 
     this.player = new Player(this, PLAYER_START_POS_X, PLAYER_START_POS_Y, MainSceneData.assets.player.textureKey);
   }

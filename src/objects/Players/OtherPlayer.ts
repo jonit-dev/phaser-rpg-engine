@@ -5,6 +5,7 @@ import { geckosClientHelper } from '../../game';
 import MainScene from '../../scenes/mainScene';
 import { AnimationDirection } from '../../typings/AnimationTypes';
 import { ICameraCoordinates, IConnectedPlayer, PlayerGeckosEvents } from '../../typings/PlayerTypes';
+import { PlayerCamera } from './components/PlayerCamera';
 
 export class OtherPlayer extends Entity {
   private direction: AnimationDirection = 'down';
@@ -59,9 +60,6 @@ export class OtherPlayer extends Entity {
     });
     this.scene.add.container(0, 0, [this, this.coordinatesText]);
 
-    console.log('updating camera draw');
-    console.log(this.cameraCoordinates);
-
     if (this.debugCamera) {
       this.cameraDraw = this.scene.add.rectangle(
         this.cameraCoordinates.x,
@@ -96,14 +94,11 @@ export class OtherPlayer extends Entity {
       this.updateDebugInfo();
 
       // delete itself if too far, to preserve memory
-      const isOnView = MainScene.camera.worldViewWithOffset.contains(this.x, this.y);
+      const isOnView = PlayerCamera.worldViewWithOffset.contains(this.x, this.y);
 
       if (!isOnView) {
         this.destroy();
         console.log(`destroying other player out of view: ${this.id}`);
-        console.log(`current player stats: x: ${this.x}, y: ${this.y}`);
-        console.log('current camera stats');
-        console.log(MainScene.camera.worldViewWithOffset);
       }
     }
   }
