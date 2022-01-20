@@ -18,14 +18,16 @@ export class Player extends Entity {
   private coordinatesText: Phaser.GameObjects.Text;
   private canMove = true;
   private movementIntervalSpeed = 25; //in ms
+  public static body;
 
   constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
     super(scene, x, y, texture, MainSceneData.assets);
 
     this.name = uniqueNamesGenerator({
-      dictionaries: [animals], // colors can be omitted here as not used
+      dictionaries: [animals],
       length: 1,
-    }); // big-donkey
+    });
+    Player.body = this;
 
     this.cursors = this.scene.input.keyboard.createCursorKeys();
 
@@ -47,7 +49,14 @@ export class Player extends Entity {
         y: PLAYER_START_POS_Y,
       },
       speed: Player.speed,
+      // charLayer: 'ground',
     });
+
+    MainScene.camera.startFollow(Player.body);
+    MainScene.camera.roundPixels = true; //! This MUST be after startFollow method, otherwise it won't work
+
+    MainScene.camera.centerOn(this.x, this.y);
+    MainScene.camera.followOffset.set(MainScene.camera.worldView.width / 2, MainScene.camera.worldView.height / 2);
   }
 
   private onPlayerUpdate() {
@@ -64,12 +73,11 @@ export class Player extends Entity {
     MainScene.grid.movementStarted().subscribe(({ charId, direction }) => {
       if (charId === 'player') {
         this.canMove = false;
-        const gridPosition = MainScene.grid.getPosition('player');
 
         geckosClientHelper.channel.emit(PlayerGeckosEvents.PlayerPositionUpdate, {
           id: Player.id,
-          x: gridPosition.x,
-          y: gridPosition.y,
+          x: this.x,
+          y: this.y,
           direction,
           name: this.name,
           channelId: geckosClientHelper.channelId,
@@ -152,6 +160,7 @@ export class Player extends Entity {
         data.x,
         data.y,
         data.direction as AnimationDirection,
+        data.cameraCoordinates,
         'player'
       );
 
@@ -176,6 +185,7 @@ export class Player extends Entity {
           data.x,
           data.y,
           data.direction as AnimationDirection,
+          data.cameraCoordinates,
           'player'
         );
         MainScene.otherPlayers.push(otherPlayer);

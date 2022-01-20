@@ -4,31 +4,26 @@ import {
   WORLD_HEIGHT,
   WORLD_WIDTH,
 } from '../constants/worldConstants';
-import { Player } from './Players/Player';
 
-export class Camera {
-  private camera: Phaser.Cameras.Scene2D.Camera;
+export class CustomCamera extends Phaser.Cameras.Scene2D.Camera {
   public extendedView: () => Phaser.Geom.Rectangle;
   public worldViewWithOffset: Phaser.Geom.Rectangle;
   public representation: Phaser.GameObjects.Rectangle;
   private debugText: Phaser.GameObjects.Text;
-  private player: Player;
-  private scene: Phaser.Scene;
-  private debugMode: boolean = false;
 
-  constructor(scene: Phaser.Scene, player: Player) {
-    this.player = player;
+  public scene: Phaser.Scene;
+  private debugMode: boolean = true;
+
+  constructor(scene: Phaser.Scene, x: number, y: number, width: number, height: number) {
+    super(x, y, width, height);
     this.scene = scene;
-    this.camera = scene.cameras.main;
-    this.camera.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+
+    this.scene.cameras.addExisting(this, true);
+
+    this.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
 
     this.extendedView = () => {
-      return new Phaser.Geom.Rectangle(
-        this.camera.worldView.x,
-        this.camera.worldView.y,
-        this.camera.worldView.width,
-        this.camera.worldView.height
-      );
+      return new Phaser.Geom.Rectangle(this.worldView.x, this.worldView.y, this.worldView.width, this.worldView.height);
     };
 
     this.worldViewWithOffset = this.extendedView();
@@ -39,22 +34,22 @@ export class Camera {
 
     scene.events.addListener('update', this.onUpdate, this);
 
-    this.startFollowingPlayer();
-  }
-
-  private startFollowingPlayer() {
-    this.camera.startFollow(this.player);
-    this.camera.roundPixels = true; //! This MUST be after startFollow method, otherwise it won't work
+    this.setLerp(0.5);
   }
 
   private onUpdate() {
-    this.worldViewWithOffset.x = this.camera.worldView.x - CAMERA_VIEWPORT_OFFSET_X;
-    this.worldViewWithOffset.y = this.camera.worldView.y - CAMERA_VIEWPORT_OFFSET_Y;
-    this.worldViewWithOffset.width = this.camera.worldView.width + CAMERA_VIEWPORT_OFFSET_X;
-    this.worldViewWithOffset.height = this.camera.worldView.height + CAMERA_VIEWPORT_OFFSET_Y;
-
     if (this.debugMode) {
       this.onUpdateDebugInfo();
+
+      this.worldViewWithOffset.x = this.worldView.x + 32;
+      this.worldViewWithOffset.y = this.worldView.y + 32;
+      this.worldViewWithOffset.width = this.worldView.width - 64;
+      this.worldViewWithOffset.height = this.worldView.height - 64;
+    } else {
+      this.worldViewWithOffset.x = this.worldView.x - CAMERA_VIEWPORT_OFFSET_X;
+      this.worldViewWithOffset.y = this.worldView.y - CAMERA_VIEWPORT_OFFSET_Y;
+      this.worldViewWithOffset.width = this.worldView.width + CAMERA_VIEWPORT_OFFSET_X;
+      this.worldViewWithOffset.height = this.worldView.height + CAMERA_VIEWPORT_OFFSET_Y;
     }
   }
 

@@ -1,43 +1,21 @@
 {
-  "name": "phaser-project-template",
+  "name": "phaser-online-rpg-engine",
   "version": "3.24.1",
-  "description": "Phaser 3 starter template with TypeScript and webpack.",
+  "description": "Phaser 3 Online RPG Engine.",
   "homepage": "https://github.com/yandeu/phaser-project-template#readme",
-  "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config webpack/webpack.dev.js",
+    "dev": "webpack-dev-server --config webpack/webpack.dev.js",
     "build": "webpack --config webpack/webpack.prod.js",
     "bundle": "npm run build",
     "serve": "serve dist",
     "format": "prettier --write . --loglevel silent"
-  },
-  "keywords": [
-    "Phaser",
-    "Phaser 3",
-    "Phaser3",
-    "html5 game",
-    "TypeScript",
-    "webpack",
-    "starter"
-  ],
-  "author": {
-    "name": "Yannick Deubel",
-    "url": "https://github.com/yandeu"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yandeu/phaser-project-template.git"
-  },
-  "template": {
-    "name": "phaser-project-template",
-    "url": "https://github.com/yandeu/phaser-project-template",
-    "author": "Yannick Deubel (https://github.com/yandeu)"
   },
   "engines": {
     "node": ">=8.0.0"
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/lodash": "^4.14.178",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "grid-engine": "^2.12.0",
@@ -61,6 +39,7 @@
   "dependencies": {
     "@geckos.io/client": "^2.1.6",
     "dotenv-webpack": "^7.0.3",
+    "lodash": "^4.17.21",
     "phaser": "^3.55.2",
     "prettier": "^2.5.1",
     "pretty-quick": "^3.1.3",

@@ -1,4 +1,6 @@
 // this will center the player on the middle of the grid
 
-export const PLAYER_START_POS_X = 0;
-export const PLAYER_START_POS_Y = 0;
+import _ from 'lodash';
+
+export const PLAYER_START_POS_X = _.random(10, 15);
+export const PLAYER_START_POS_Y = _.random(10, 15);
