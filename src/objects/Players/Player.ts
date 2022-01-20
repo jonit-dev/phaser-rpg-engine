@@ -8,33 +8,30 @@ import { geckosClientHelper } from '../../game';
 import MainScene from '../../scenes/mainScene';
 import { AnimationDirection } from '../../typings/AnimationTypes';
 import { IConnectedPlayer, PlayerGeckosEvents, PlayerLogoutPayload } from '../../typings/PlayerTypes';
+import { PlayerMovement } from './components/PlayerMovement';
+import { PlayerUI } from './components/PlayerUI';
 import { OtherPlayer } from './OtherPlayer';
-import { PlayerUI } from './PlayerUI';
 
 export class Player extends Entity {
   public static id = uuidv4();
   public static speed = 2; //tiles per second
-  private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  private direction: AnimationDirection = 'down';
+  public direction: AnimationDirection = 'down';
   public name: string;
-  private canMove = true;
+  public canMove = true;
   private movementIntervalSpeed = 25; //in ms
 
   constructor(scene: ComponentsScene, x: number, y: number, texture: string) {
     super(scene, x, y, texture, MainSceneData.assets);
 
     scene.components.addComponent(this, new PlayerUI());
+    scene.components.addComponent(this, new PlayerMovement());
 
     this.name = uniqueNamesGenerator({
       dictionaries: [animals],
       length: 1,
     });
 
-    this.cursors = this.scene.input.keyboard.createCursorKeys();
-
     console.log(`Player id ${Player.id} has been created`);
-
-    this.scene.events.addListener('update', this.onPlayerUpdate, this);
 
     MainScene.grid.addCharacter({
       id: 'player',
@@ -53,12 +50,6 @@ export class Player extends Entity {
 
     MainScene.camera.centerOn(this.x, this.y);
     MainScene.camera.followOffset.set(MainScene.camera.worldView.width / 2, MainScene.camera.worldView.height / 2);
-  }
-
-  private onPlayerUpdate() {
-    const gridPosition = MainScene.grid.getPosition('player');
-
-    this.movements(MainScene.grid);
   }
 
   public onUpdateSocketEvents() {
@@ -91,26 +82,6 @@ export class Player extends Entity {
         }, this.movementIntervalSpeed);
       }
     });
-  }
-
-  private movements(gridEngine) {
-    if (this.canMove) {
-      if (this.cursors.up.isDown && !gridEngine.isMoving('player')) {
-        gridEngine.move('player', 'up');
-        this.direction = 'up';
-      } else if (this.cursors.down.isDown && !gridEngine.isMoving('player')) {
-        this.direction = 'down';
-        gridEngine.move('player', 'down');
-      } else if (this.cursors.left.isDown && !gridEngine.isMoving('player')) {
-        this.direction = 'left';
-        gridEngine.move('player', 'left');
-      } else if (this.cursors.right.isDown && !gridEngine.isMoving('player')) {
-        this.direction = 'right';
-        gridEngine.move('player', 'right');
-      }
-    }
-
-    this.playAnimations(this.direction, gridEngine.isMoving('player'));
   }
 
   public sendCreateSocketEvents() {

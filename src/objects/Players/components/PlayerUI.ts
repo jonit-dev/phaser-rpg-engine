@@ -1,6 +1,6 @@
-import { IComponent } from '../../abstractions/ComponentService';
-import MainScene from '../../scenes/mainScene';
-import { Player } from './Player';
+import { IComponent } from '../../../abstractions/ComponentService';
+import MainScene from '../../../scenes/mainScene';
+import { Player } from '../Player';
 
 export class PlayerUI implements IComponent {
   private gameObject: Player;
@@ -10,15 +10,11 @@ export class PlayerUI implements IComponent {
     this.gameObject = targetObject;
   }
 
-  public awake() {
+  public start() {
     this.coordinatesText = this.gameObject.scene.add.text(0, 0, '', {
       color: 'red',
     });
     this.gameObject.scene.add.container(0, 0, [this.gameObject, this.coordinatesText]);
-  }
-
-  public start() {
-    console.log(this.gameObject);
   }
 
   public update() {
