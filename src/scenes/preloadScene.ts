@@ -1,6 +1,6 @@
-import { PreloadSceneData } from '../../typings/PreloadSceneTypes';
 import { MainSceneData } from '../constants/scenes/MainSceneData';
-import { DesertMapTileset } from '../objects/maps/DesertTileset';
+import { DesertMapTileset } from '../maps/DesertTileset';
+import { PreloadSceneData } from '../typings/PreloadSceneTypes';
 
 export default class PreloadScene extends Phaser.Scene {
   constructor() {

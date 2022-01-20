@@ -1,10 +1,10 @@
-import { AnimationDirection } from '../../../typings/AnimationTypes';
 import { Entity as Entity } from '../../abstractions/Entity';
 import { MainSceneData } from '../../constants/scenes/MainSceneData';
 import { GRID_HEIGHT, GRID_WIDTH } from '../../constants/worldConstants';
 import { geckosClientHelper } from '../../game';
 import MainScene from '../../scenes/mainScene';
-import { ICameraCoordinates, IConnectedPlayer, PlayerGeckosEvents } from '../../types/PlayerTypes';
+import { AnimationDirection } from '../../typings/AnimationTypes';
+import { ICameraCoordinates, IConnectedPlayer, PlayerGeckosEvents } from '../../typings/PlayerTypes';
 
 export class OtherPlayer extends Entity {
   private direction: AnimationDirection = 'down';

@@ -5,7 +5,7 @@ const { InjectManifest } = require('workbox-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
-  entry: ['./src/scripts/game.ts', './webpack/credits.js'],
+  entry: ['./src/game.ts', './webpack/credits.js'],
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name].bundle.js',

@@ -1,4 +1,4 @@
-import { appEnv } from '../../constants/appEnv';
+import { appEnv } from '../constants/appEnv';
 import { Tileset } from './Tileset';
 
 export class DesertMapTileset extends Tileset {

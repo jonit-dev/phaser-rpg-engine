@@ -1,13 +1,15 @@
 import { animals, uniqueNamesGenerator } from 'unique-names-generator';
 import { v4 as uuidv4 } from 'uuid';
-import { AnimationDirection } from '../../../typings/AnimationTypes';
+import { ComponentsScene } from '../../abstractions/CustomScene';
 import { Entity } from '../../abstractions/Entity';
 import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../../constants/playerConstants';
 import { MainSceneData } from '../../constants/scenes/MainSceneData';
 import { geckosClientHelper } from '../../game';
 import MainScene from '../../scenes/mainScene';
-import { IConnectedPlayer, PlayerGeckosEvents, PlayerLogoutPayload } from '../../types/PlayerTypes';
+import { AnimationDirection } from '../../typings/AnimationTypes';
+import { IConnectedPlayer, PlayerGeckosEvents, PlayerLogoutPayload } from '../../typings/PlayerTypes';
 import { OtherPlayer } from './OtherPlayer';
+import { PlayerUI } from './PlayerUI';
 
 export class Player extends Entity {
   public static id = uuidv4();
@@ -15,26 +17,20 @@ export class Player extends Entity {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
   private direction: AnimationDirection = 'down';
   public name: string;
-  private coordinatesText: Phaser.GameObjects.Text;
   private canMove = true;
   private movementIntervalSpeed = 25; //in ms
-  public static body;
 
-  constructor(scene: Phaser.Scene, x: number, y: number, texture: string) {
+  constructor(scene: ComponentsScene, x: number, y: number, texture: string) {
     super(scene, x, y, texture, MainSceneData.assets);
+
+    scene.components.addComponent(this, new PlayerUI());
 
     this.name = uniqueNamesGenerator({
       dictionaries: [animals],
       length: 1,
     });
-    Player.body = this;
 
     this.cursors = this.scene.input.keyboard.createCursorKeys();
-
-    this.coordinatesText = scene.add.text(0, 0, '', {
-      color: 'red',
-    });
-    scene.add.container(0, 0, [this, this.coordinatesText]);
 
     console.log(`Player id ${Player.id} has been created`);
 
@@ -52,7 +48,7 @@ export class Player extends Entity {
       // charLayer: 'ground',
     });
 
-    MainScene.camera.startFollow(Player.body);
+    MainScene.camera.startFollow(this);
     MainScene.camera.roundPixels = true; //! This MUST be after startFollow method, otherwise it won't work
 
     MainScene.camera.centerOn(this.x, this.y);
@@ -61,10 +57,6 @@ export class Player extends Entity {
 
   private onPlayerUpdate() {
     const gridPosition = MainScene.grid.getPosition('player');
-
-    this.coordinatesText.text = `${this.name} | ${gridPosition.x}, ${gridPosition.y}`;
-    this.coordinatesText.x = this.x - this.coordinatesText.width / 2;
-    this.coordinatesText.y = this.y - this.coordinatesText.height / 2;
 
     this.movements(MainScene.grid);
   }
@@ -103,8 +95,6 @@ export class Player extends Entity {
 
   private movements(gridEngine) {
     if (this.canMove) {
-      const gridPosition = MainScene.grid.getPosition('player');
-
       if (this.cursors.up.isDown && !gridEngine.isMoving('player')) {
         gridEngine.move('player', 'up');
         this.direction = 'up';
@@ -151,7 +141,6 @@ export class Player extends Entity {
 
     geckosClientHelper.channel.on(PlayerGeckosEvents.PlayerCreate, (d) => {
       const data = d as IConnectedPlayer;
-      console.log(`Event ${PlayerGeckosEvents.PlayerCreate} received with data: ${JSON.stringify(data)}`);
 
       const otherPlayer = new OtherPlayer(
         this.scene as MainScene,

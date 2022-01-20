@@ -1,6 +1,6 @@
 import geckos, { ChannelId, ClientChannel } from '@geckos.io/client';
 import { Player } from '../../objects/Players/Player';
-import { PlayerGeckosEvents } from '../../types/PlayerTypes';
+import { PlayerGeckosEvents } from '../../typings/PlayerTypes';
 
 export class GeckosClientHelper {
   public channel: ClientChannel;

@@ -1,11 +1,12 @@
-import { AnimationDirection, IAnimationData } from '../../typings/AnimationTypes';
-import { IAssetData } from '../../typings/AssetTypes';
+import { AnimationDirection, IAnimationData } from '../typings/AnimationTypes';
+import { IAssetData } from '../typings/AssetTypes';
+import { ComponentsScene } from './CustomScene';
 
 export class Entity extends Phaser.Physics.Arcade.Sprite {
   private assetData: IAssetData;
   private textureKey: string;
 
-  constructor(scene: Phaser.Scene, x: number, y: number, textureKey: string, assetData: IAssetData) {
+  constructor(scene: ComponentsScene, x: number, y: number, textureKey: string, assetData: IAssetData) {
     super(scene, x, y, textureKey);
 
     this.textureKey = textureKey;

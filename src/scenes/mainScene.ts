@@ -1,13 +1,14 @@
+import { ComponentsScene } from '../abstractions/CustomScene';
 import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../constants/playerConstants';
 import { MainSceneData } from '../constants/scenes/MainSceneData';
 import { CAMERA_VIEWPORT_HEIGHT, CAMERA_VIEWPORT_WIDTH, WORLD_HEIGHT, WORLD_WIDTH } from '../constants/worldConstants';
+import { DesertMapTileset } from '../maps/DesertTileset';
 import { CustomCamera } from '../objects/CustomCamera';
 import { GridManager } from '../objects/GridManager';
-import { DesertMapTileset } from '../objects/maps/DesertTileset';
 import { OtherPlayer } from '../objects/Players/OtherPlayer';
 import { Player } from '../objects/Players/Player';
 
-export default class MainScene extends Phaser.Scene {
+export default class MainScene extends ComponentsScene {
   private player: Player;
   public static camera: CustomCamera;
   public gridEngine;
