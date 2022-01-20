@@ -10,12 +10,14 @@ export class PlayerUI implements IComponent {
     this.gameObject = targetObject;
   }
 
-  public start() {
+  public awake() {
     this.coordinatesText = this.gameObject.scene.add.text(0, 0, '', {
       color: 'red',
     });
     this.gameObject.scene.add.container(0, 0, [this.gameObject, this.coordinatesText]);
   }
+
+  public start() {}
 
   public update() {
     const gridPosition = MainScene.grid.getPosition('player');

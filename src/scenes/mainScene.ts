@@ -29,10 +29,5 @@ export default class MainScene extends ComponentsScene {
     MainScene.camera = new CustomCamera(this, 0, 0, CAMERA_VIEWPORT_WIDTH, CAMERA_VIEWPORT_HEIGHT);
 
     this.player = new Player(this, PLAYER_START_POS_X, PLAYER_START_POS_Y, MainSceneData.assets.player.textureKey);
-    setTimeout(() => {
-      //! This is necessary because the camera starts with 0,0,0,0 bounds at the first frame. So we cannot send this info to the server until we have it properly setup!
-      this.player.sendCreateSocketEvents();
-      this.player.onUpdateSocketEvents();
-    }, 100);
   }
 }
