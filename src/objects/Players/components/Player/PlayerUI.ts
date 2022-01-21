@@ -22,7 +22,9 @@ export class PlayerUI implements IComponent {
   public update() {
     const gridPosition = MainScene.grid.getPosition('player');
 
-    this.coordinatesText.text = `${this.gameObject.name} | ${gridPosition.x}, ${gridPosition.y}`;
+    this.coordinatesText.text = `${this.gameObject.name} | ${Math.round(this.gameObject.x)}, ${Math.round(
+      this.gameObject.y
+    )}`;
     this.coordinatesText.x = this.gameObject.x - this.coordinatesText.width / 2;
     this.coordinatesText.y = this.gameObject.y - this.coordinatesText.height / 2;
   }

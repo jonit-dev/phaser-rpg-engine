@@ -74,8 +74,8 @@ export class PlayerMovement implements IComponent {
 
         geckosClientHelper.channel.emit(PlayerGeckosEvents.PlayerPositionUpdate, {
           id: Player.id,
-          x: this.gameObject.x,
-          y: this.gameObject.y,
+          x: Math.round(this.gameObject.x),
+          y: Math.round(this.gameObject.y),
           direction,
           name: this.gameObject.name,
           channelId: geckosClientHelper.channelId,
@@ -86,6 +86,7 @@ export class PlayerMovement implements IComponent {
             width: PlayerCamera.worldViewWithOffset.width,
             height: PlayerCamera.worldViewWithOffset.height,
           },
+          otherPlayersInView: MainScene.otherPlayersInView,
         } as IConnectedPlayer);
       }
     });
@@ -101,7 +102,7 @@ export class PlayerMovement implements IComponent {
     geckosClientHelper.channel.on(PlayerGeckosEvents.PlayerPositionUpdate, (d) => {
       const data = d as IConnectedPlayer;
 
-      const foundPlayer = MainScene.otherPlayers.find((p) => p.id === data.id);
+      const foundPlayer = MainScene.otherPlayersInView.find((p) => p.id === data.id);
 
       if (!foundPlayer) {
         const otherPlayer = new OtherPlayer(
@@ -112,9 +113,10 @@ export class PlayerMovement implements IComponent {
           data.y,
           data.direction as AnimationDirection,
           data.cameraCoordinates,
-          'player'
+          'player',
+          data.channelId,
+          data.isMoving!
         );
-        MainScene.otherPlayers.push(otherPlayer);
       }
     });
   }
@@ -159,10 +161,10 @@ export class PlayerMovement implements IComponent {
         data.y,
         data.direction as AnimationDirection,
         data.cameraCoordinates,
-        'player'
+        'player',
+        data.channelId,
+        data.isMoving!
       );
-
-      MainScene.otherPlayers.push(otherPlayer);
     });
   }
 

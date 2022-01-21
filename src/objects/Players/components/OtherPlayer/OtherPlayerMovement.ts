@@ -73,6 +73,17 @@ export class OtherPlayerMovement implements IComponent {
         if (data.isMoving) {
           MainScene.grid.move(this.gameObject.id, data.direction);
         }
+
+        // update our view representation
+        MainScene.otherPlayersInView = MainScene.otherPlayersInView.map((player) => {
+          if (player.id === data.id) {
+            return {
+              ...data,
+            };
+          }
+
+          return player;
+        });
       }
     });
   }

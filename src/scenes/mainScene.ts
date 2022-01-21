@@ -6,6 +6,7 @@ import { DesertMapTileset } from '../maps/DesertTileset';
 import { GridManager } from '../objects/GridManager';
 import { OtherPlayer } from '../objects/Players/OtherPlayer';
 import { Player } from '../objects/Players/Player';
+import { IConnectedPlayer } from '../typings/PlayerTypes';
 
 export default class MainScene extends ComponentsScene {
   private player: Player;
@@ -13,6 +14,7 @@ export default class MainScene extends ComponentsScene {
   private map: DesertMapTileset;
   public static grid;
   public static otherPlayers: OtherPlayer[] = [];
+  public static otherPlayersInView: IConnectedPlayer[] = [];
 
   constructor() {
     super({ key: MainSceneData.key });
