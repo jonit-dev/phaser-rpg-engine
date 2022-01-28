@@ -7,7 +7,7 @@ export class DesertMapTileset extends Tileset {
   }
 
   public static preload(scene: Phaser.Scene) {
-    scene.load.image('desert', 'assets/tilesets/desert/output/desert.png');
+    scene.load.image('desert', 'assets/tilesets/desert/desert.png');
     scene.load.tilemapTiledJSON('desert_map', `${appEnv.server.url}/maps/desert.json`);
   }
 }
