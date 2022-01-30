@@ -11,7 +11,6 @@ import { PlayerCamera } from './PlayerCamera';
 
 export class PlayerMovement implements IComponent {
   private gameObject: Player;
-  private coordinatesText: Phaser.GameObjects.Text;
   private cursors;
   private gridEngine = MainScene.grid;
   private speed = 4; //tiles per second
@@ -37,6 +36,7 @@ export class PlayerMovement implements IComponent {
         y: PLAYER_START_POS_Y,
       },
       speed: this.speed,
+      charLayer: 'player',
     });
   }
 
@@ -48,9 +48,6 @@ export class PlayerMovement implements IComponent {
     this.onSocketPositionUpdate();
     this.onSocketReceivePrivateMessage();
     this.onSocketReceiveLogout();
-
-    const line = this.gameObject.scene.add.graphics();
-    line.lineStyle(2, 0xfffff0, 1);
   }
 
   public update() {
@@ -92,11 +89,17 @@ export class PlayerMovement implements IComponent {
   }
 
   private hasBlockingTile(x: number, y: number) {
-    return this.gameObject.tilemap.layers.some((layer) => {
+    const hasBlockingTile = this.gameObject.tilemap.layers.some((layer) => {
       const tile = this.gameObject.tilemap.getTileAtWorldXY(x, y, false, this.camera, layer.name);
 
-      return tile && tile.properties.ge_collide && this.gridEngine.isBlocked({ x, y }, layer.name);
+      return tile && tile.properties.ge_collide;
     });
+
+    if (hasBlockingTile) {
+      this.submitPlayerPositionUpdate(this.direction, false); // if we have a blocking tile, update online our player direction (not the movement)
+    }
+
+    return hasBlockingTile;
   }
 
   private onSocketPositionUpdate() {
@@ -104,22 +107,7 @@ export class PlayerMovement implements IComponent {
       if (charId === 'player') {
         this.canMove = false;
 
-        geckosClientHelper.channel.emit(PlayerGeckosEvents.PlayerPositionUpdate, {
-          id: Player.id,
-          x: Math.round(this.gameObject.x),
-          y: Math.round(this.gameObject.y),
-          direction,
-          name: this.gameObject.name,
-          channelId: geckosClientHelper.channelId,
-          isMoving: true,
-          cameraCoordinates: {
-            x: PlayerCamera.worldViewWithOffset.x,
-            y: PlayerCamera.worldViewWithOffset.y,
-            width: PlayerCamera.worldViewWithOffset.width,
-            height: PlayerCamera.worldViewWithOffset.height,
-          },
-          otherPlayersInView: MainScene.otherPlayersInView,
-        } as IConnectedPlayer);
+        this.submitPlayerPositionUpdate(direction, true);
       }
     });
     MainScene.grid.movementStopped().subscribe(({ charId, direction }) => {
@@ -151,6 +139,25 @@ export class PlayerMovement implements IComponent {
         );
       }
     });
+  }
+
+  private submitPlayerPositionUpdate(direction: AnimationDirection, isMoving: boolean) {
+    geckosClientHelper.channel.emit(PlayerGeckosEvents.PlayerPositionUpdate, {
+      id: Player.id,
+      x: Math.round(this.gameObject.x),
+      y: Math.round(this.gameObject.y),
+      direction,
+      name: this.gameObject.name,
+      channelId: geckosClientHelper.channelId,
+      isMoving,
+      cameraCoordinates: {
+        x: PlayerCamera.worldViewWithOffset.x,
+        y: PlayerCamera.worldViewWithOffset.y,
+        width: PlayerCamera.worldViewWithOffset.width,
+        height: PlayerCamera.worldViewWithOffset.height,
+      },
+      otherPlayersInView: MainScene.otherPlayersInView,
+    } as IConnectedPlayer);
   }
 
   private onSocketEmitCreateEvent() {

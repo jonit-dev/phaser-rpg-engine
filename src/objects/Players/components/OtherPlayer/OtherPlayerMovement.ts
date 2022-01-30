@@ -3,6 +3,7 @@ import { GRID_HEIGHT, GRID_WIDTH } from '../../../../constants/worldConstants';
 import { geckosClientHelper } from '../../../../game';
 import MainScene from '../../../../scenes/mainScene';
 import { AnimationDirection } from '../../../../typings/AnimationTypes';
+import { MapLayers } from '../../../../typings/MapsTypes';
 import { IConnectedPlayer, PlayerGeckosEvents } from '../../../../typings/PlayerTypes';
 import { OtherPlayer } from '../../OtherPlayer';
 import { PlayerCamera } from '../Player/PlayerCamera';
@@ -29,7 +30,10 @@ export class OtherPlayerMovement implements IComponent {
         y: Math.round(this.gameObject.y / GRID_HEIGHT),
       },
       speed: this.speed,
+      charLayer: 'player',
     });
+
+    // this.gameObject.setOrigin(0, -0.5);
   }
 
   public start() {
@@ -47,6 +51,7 @@ export class OtherPlayerMovement implements IComponent {
         console.log(`destroying other player out of view: ${this.gameObject.id}`);
         this.gameObject.destroy();
       }
+      this.gameObject.setDepth(MapLayers.Player);
     }
   }
 
@@ -57,9 +62,6 @@ export class OtherPlayerMovement implements IComponent {
       if (data.id === this.gameObject.id) {
         console.log(`received position update for other player ${data.id}`);
         console.log('pos', data);
-
-        this.gameObject.x = data.x;
-        this.gameObject.y = data.y;
 
         // this.cameraCoordinates = data.cameraCoordinates; //! REACTIVATE on debug
 

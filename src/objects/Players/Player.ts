@@ -23,7 +23,7 @@ export class Player extends Entity {
     });
 
     scene.components.addComponent(this, new PlayerCamera());
-    scene.components.addComponent(this, new PlayerUI());
     scene.components.addComponent(this, new PlayerMovement());
+    scene.components.addComponent(this, new PlayerUI());
   }
 }

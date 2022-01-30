@@ -8,6 +8,7 @@ import {
   WORLD_HEIGHT,
   WORLD_WIDTH,
 } from '../../../../constants/worldConstants';
+import { MapLayers } from '../../../../typings/MapsTypes';
 import { Player } from '../../Player';
 
 export class PlayerCamera implements IComponent {
@@ -18,6 +19,7 @@ export class PlayerCamera implements IComponent {
   private debugWorldView: Phaser.GameObjects.Rectangle;
   private debugMode: boolean = false;
   private debugGrid: Phaser.GameObjects.Grid;
+  private showDebugGrid: boolean = true;
 
   public init(targetObject: Player) {
     this.gameObject = targetObject;
@@ -35,17 +37,19 @@ export class PlayerCamera implements IComponent {
     this.onRenderDebugInfo();
     this.camera.roundPixels = true; //! This MUST be after startFollow method, otherwise it won't work
 
-    this.debugGrid = this.scene.add.grid(
-      this.camera.worldView.x,
-      this.camera.worldView.y,
-      this.camera.worldView.width,
-      this.camera.worldView.height,
-      GRID_WIDTH,
-      GRID_HEIGHT,
-      0x00ff,
-      0.4
-    );
-    this.debugGrid.setDepth(4);
+    if (this.showDebugGrid) {
+      this.debugGrid = this.scene.add.grid(
+        this.camera.worldView.x,
+        this.camera.worldView.y,
+        this.camera.worldView.width,
+        this.camera.worldView.height,
+        GRID_WIDTH,
+        GRID_HEIGHT,
+        0x00ff,
+        0.4
+      );
+      this.debugGrid.setDepth(MapLayers.OverPlayer);
+    }
   }
 
   public update() {
@@ -55,10 +59,12 @@ export class PlayerCamera implements IComponent {
     if (this.debugMode) {
       this.onRenderDebugInfo();
     }
-    this.debugGrid.x = this.camera.worldView.x;
-    this.debugGrid.y = this.camera.worldView.y;
-    this.debugGrid.width = this.camera.worldView.width;
-    this.debugGrid.height = this.camera.worldView.height;
+    if (this.debugGrid) {
+      this.debugGrid.x = this.camera.worldView.x;
+      this.debugGrid.y = this.camera.worldView.y;
+      this.debugGrid.width = this.camera.worldView.width;
+      this.debugGrid.height = this.camera.worldView.height;
+    }
   }
 
   private renderWorldviewWithOffset() {

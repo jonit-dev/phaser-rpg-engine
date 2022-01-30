@@ -1,5 +1,5 @@
 import { IComponent } from '../../../../abstractions/ComponentService';
-import MainScene from '../../../../scenes/mainScene';
+import { MapLayers } from '../../../../typings/MapsTypes';
 import { Player } from '../../Player';
 
 export class PlayerUI implements IComponent {
@@ -14,14 +14,12 @@ export class PlayerUI implements IComponent {
     this.coordinatesText = this.gameObject.scene.add.text(0, 0, '', {
       color: 'red',
     });
-    this.gameObject.scene.add.container(0, 0, [this.gameObject, this.coordinatesText]);
+    this.coordinatesText.setDepth(MapLayers.OverPlayer);
   }
 
   public start() {}
 
   public update() {
-    const gridPosition = MainScene.grid.getPosition('player');
-
     this.coordinatesText.text = `${this.gameObject.key} | ${Math.round(this.gameObject.x)}, ${Math.round(
       this.gameObject.y
     )}`;

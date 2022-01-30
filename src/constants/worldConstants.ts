@@ -1,5 +1,5 @@
-export const WORLD_WIDTH = 10000;
-export const WORLD_HEIGHT = 10000;
+export const WORLD_WIDTH = 1600;
+export const WORLD_HEIGHT = 1600;
 
 export const CAMERA_VIEWPORT_WIDTH = 812;
 export const CAMERA_VIEWPORT_HEIGHT = 375;

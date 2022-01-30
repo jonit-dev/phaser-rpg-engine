@@ -1,5 +1,6 @@
 import { AnimationDirection, IAnimationData } from '../typings/AnimationTypes';
 import { IAssetData } from '../typings/AssetTypes';
+import { MapLayers } from '../typings/MapsTypes';
 import { ComponentsScene } from './CustomScene';
 
 export class Entity extends Phaser.Physics.Arcade.Sprite {
@@ -16,6 +17,9 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
 
     // this.setCollideWorldBounds(true);
 
+    // default layer for every entity
+    this.setDepth(MapLayers.Player);
+
     this.assetData = assetData;
     this.setupAnimations(this.assetData[textureKey].animations);
   }
@@ -30,6 +34,7 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
         }),
         frameRate: 6,
         repeat: -1,
+        yoyo: true,
       });
 
       this.scene.anims.create({
@@ -39,6 +44,7 @@ export class Entity extends Phaser.Physics.Arcade.Sprite {
         }),
         frameRate: 2,
         repeat: -1,
+        yoyo: true,
       });
     }
   }

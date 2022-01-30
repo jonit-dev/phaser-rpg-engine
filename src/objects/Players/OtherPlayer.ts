@@ -37,8 +37,6 @@ export class OtherPlayer extends Entity {
     this.direction = direction;
     this.cameraCoordinates = cameraCoordinates;
 
-    scene.components.addComponent(this, new OtherPlayerMovement(this.direction));
-
     console.log(`💡 Other player(${this.name}) id ${this.id} has been created and added to position: ${x}, ${y}`);
 
     MainScene.otherPlayers.push(this);
@@ -54,6 +52,10 @@ export class OtherPlayer extends Entity {
       isMoving: this.isMoving,
       cameraCoordinates: this.cameraCoordinates,
     });
+
+    // this.setOrigin(0, -2);
+
+    scene.components.addComponent(this, new OtherPlayerMovement(this.direction));
   }
 
   destroy(fromScene?: boolean): void {

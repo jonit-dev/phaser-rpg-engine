@@ -8,3 +8,10 @@ export interface IMap {
   jsonPath: string;
   tilesetName: string;
 }
+
+export enum MapLayers {
+  Ground = 0,
+  OverGround = 1,
+  Player = 2,
+  OverPlayer = 3,
+}
