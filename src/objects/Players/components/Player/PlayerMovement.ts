@@ -18,8 +18,6 @@ export class PlayerMovement implements IComponent {
   private canMove = true;
   private movementIntervalSpeed = 25; //in ms
   private camera: Phaser.Cameras.Scene2D.Camera;
-  private centerX: number;
-  private centerY: number;
 
   public init(targetObject: Player) {
     this.gameObject = targetObject;
@@ -52,15 +50,13 @@ export class PlayerMovement implements IComponent {
 
   public update() {
     // update center point (useful for collision detection) - its located around the character foot
-    this.centerX = this.gameObject.x + this.gameObject.width / 2;
-    this.centerY = this.gameObject.y + this.gameObject.height / 2 + GRID_HEIGHT / 2;
 
     if (this.canMove) {
       const nextMovements = {
-        down: { x: Math.round(this.centerX), y: Math.round(this.centerY) + GRID_HEIGHT },
-        up: { x: Math.round(this.centerX), y: Math.round(this.centerY) - GRID_HEIGHT },
-        left: { x: Math.round(this.centerX) - GRID_WIDTH, y: Math.round(this.centerY) },
-        right: { x: Math.round(this.centerX) + GRID_WIDTH, y: Math.round(this.centerY) },
+        down: { x: Math.round(this.gameObject.x), y: Math.round(this.gameObject.y) + GRID_HEIGHT },
+        up: { x: Math.round(this.gameObject.x), y: Math.round(this.gameObject.y) - GRID_HEIGHT },
+        left: { x: Math.round(this.gameObject.x) - GRID_WIDTH, y: Math.round(this.gameObject.y) },
+        right: { x: Math.round(this.gameObject.x) + GRID_WIDTH, y: Math.round(this.gameObject.y) },
       };
 
       if (this.cursors.up.isDown && !this.gridEngine.isMoving('player')) {

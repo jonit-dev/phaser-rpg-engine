@@ -1,7 +1,7 @@
-import { ComponentsScene } from '../abstractions/CustomScene';
+import { ComponentsScene } from '../abstractions/ComponentsScene';
 import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../constants/playerConstants';
 import { MainSceneData } from '../constants/scenes/MainSceneData';
-import { GRID_HEIGHT, GRID_WIDTH, WORLD_HEIGHT, WORLD_WIDTH } from '../constants/worldConstants';
+import { WORLD_HEIGHT, WORLD_WIDTH } from '../constants/worldConstants';
 import { MapLoader } from '../maps/MapLoader';
 import { GridManager } from '../objects/GridManager';
 import { OtherPlayer } from '../objects/Players/OtherPlayer';
@@ -32,23 +32,9 @@ export default class MainScene extends ComponentsScene {
       this.map.tilemap
     );
 
-    this.input.on(
-      'pointerdown',
-      function (pointer) {
-        console.log('checking', Math.round(pointer.x / GRID_WIDTH), Math.round(pointer.y / GRID_HEIGHT));
-        console.log(
-          MainScene.grid.isBlocked(
-            {
-              x: Math.round(pointer.x / GRID_WIDTH),
-              y: Math.round(pointer.y / GRID_HEIGHT),
-            },
-            'player'
-          )
-        );
-      },
-      this
-    );
-
+    setInterval(() => {
+      console.log(this.components);
+    }, 3000);
     // const npc = new AliceNPC(this, 300, 300, 'characters');
   }
 }

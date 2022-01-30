@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 export type Constructor<T extends {}> = new (...args: any[]) => T;
 
 export interface IComponent {
-  init(targetComponent: Phaser.GameObjects.GameObject, ...args: any[]): void;
+  init(targetComponent: Phaser.GameObjects.GameObject): void;
   awake?: () => void;
   start?: () => void;
   update?: (dt: number) => void;
@@ -12,7 +12,14 @@ export interface IComponent {
 
 export default class ComponentService {
   private componentsByGameObject = new Map<string, IComponent[]>();
+  private groupsByGameObject = new Map<string, Phaser.GameObjects.Group>();
   private queueForStart: IComponent[] = [];
+
+  public clearComponent(targetObject: Phaser.GameObjects.GameObject) {
+    if (this.componentsByGameObject.has(targetObject.name)) {
+      this.componentsByGameObject.delete(targetObject.name);
+    }
+  }
 
   public addComponent(targetObject: Phaser.GameObjects.GameObject, component: IComponent) {
     if (!targetObject.name) {
@@ -36,6 +43,8 @@ export default class ComponentService {
     if (component.start) {
       this.queueForStart.push(component);
     }
+
+    console.log(component);
   }
 
   public findComponent<ComponentType>(

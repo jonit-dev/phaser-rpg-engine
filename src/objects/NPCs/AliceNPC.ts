@@ -1,4 +1,4 @@
-import { ComponentsScene } from '../../abstractions/CustomScene';
+import { ComponentsScene } from '../../abstractions/ComponentsScene';
 import { MainSceneData } from '../../constants/scenes/MainSceneData';
 import { BaseNPC } from './BaseNPC';
 import { NPCBody } from './components/NPCBody';

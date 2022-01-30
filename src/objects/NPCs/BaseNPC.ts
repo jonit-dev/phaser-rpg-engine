@@ -1,4 +1,4 @@
-import { ComponentsScene } from '../../abstractions/CustomScene';
+import { ComponentsScene } from '../../abstractions/ComponentsScene';
 
 export class BaseNPC extends Phaser.Physics.Arcade.Sprite {
   public name: string;

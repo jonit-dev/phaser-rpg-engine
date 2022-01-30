@@ -1,10 +1,13 @@
-import { ComponentsScene } from '../../abstractions/CustomScene';
+import { ComponentsScene } from '../../abstractions/ComponentsScene';
 import { Entity as Entity } from '../../abstractions/Entity';
 import { MainSceneData } from '../../constants/scenes/MainSceneData';
+import { GRID_HEIGHT, GRID_WIDTH } from '../../constants/worldConstants';
 import MainScene from '../../scenes/mainScene';
 import { AnimationDirection } from '../../typings/AnimationTypes';
 import { ICameraCoordinates } from '../../typings/PlayerTypes';
 import { OtherPlayerMovement } from './components/OtherPlayer/OtherPlayerMovement';
+import { PlayerDebug } from './components/Player/PlayerDebug';
+import { PlayerUI } from './components/Player/PlayerUI';
 
 export class OtherPlayer extends Entity {
   public direction: AnimationDirection = 'down';
@@ -53,15 +56,21 @@ export class OtherPlayer extends Entity {
       cameraCoordinates: this.cameraCoordinates,
     });
 
-    // this.setOrigin(0, -2);
+    this.setDisplayOrigin(GRID_WIDTH, GRID_HEIGHT);
 
     scene.components.addComponent(this, new OtherPlayerMovement(this.direction));
+    scene.components.addComponent(this, new PlayerDebug());
+    scene.components.addComponent(this, new PlayerUI());
   }
 
   destroy(fromScene?: boolean): void {
     MainScene.grid.removeCharacter(this.id);
     MainScene.otherPlayersInView = MainScene.otherPlayersInView.filter((p) => p.id !== this.id);
     MainScene.otherPlayers = MainScene.otherPlayers.filter((p) => p.id !== this.id);
+
+    const scene = this.scene as ComponentsScene;
+
+    scene.components.clearComponent(this);
 
     super.destroy(fromScene);
   }

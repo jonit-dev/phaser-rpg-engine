@@ -32,8 +32,6 @@ export class OtherPlayerMovement implements IComponent {
       speed: this.speed,
       charLayer: 'player',
     });
-
-    // this.gameObject.setOrigin(0, -0.5);
   }
 
   public start() {
