@@ -71,16 +71,19 @@ export class PlayerDebug implements IComponent {
     if (this.debugMode) {
       this.debugCellOrigin.x = this.gameObject.x;
       this.debugCellOrigin.y = this.gameObject.y;
-      const gridPos = MainScene.grid.getPosition(this.gridKey);
 
-      this.debugGridOrigin.x = gridPos.x * GRID_WIDTH;
-      this.debugGridOrigin.y = gridPos.y * GRID_HEIGHT;
+      if (MainScene.grid.hasCharacter(this.gridKey)) {
+        const gridPos = MainScene.grid.getPosition(this.gridKey);
+        this.debugGridOrigin.x = gridPos.x * GRID_WIDTH;
+        this.debugGridOrigin.y = gridPos.y * GRID_HEIGHT;
+      }
     }
   }
 
   public destroy() {
     if (this.debugMode) {
       this.debugCellOrigin.destroy();
+      this.debugGridOrigin.destroy();
     }
   }
 }

@@ -1,6 +1,5 @@
 import { IComponent } from '../../abstractions/ComponentService';
 import { Entity } from '../../abstractions/Entity';
-import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../../constants/playerConstants';
 import { GRID_HEIGHT, GRID_WIDTH } from '../../constants/worldConstants';
 import { gridHelper } from '../../libs/GridHelper';
 import MainScene from '../../scenes/mainScene';
@@ -21,13 +20,15 @@ export class EntityGrid implements IComponent {
   public awake() {
     // this whole offset and displayOrigin adjustments are required because our entity sprites are 32x32 while our tileset is 16x16
 
+    const { gridX, gridY } = gridHelper.convertToGridXY(this.gameObject.x, this.gameObject.y);
+
     MainScene.grid.addCharacter({
       id: this.gridKey,
       sprite: this.gameObject,
       // walkingAnimationMapping: 6,
       startPosition: {
-        x: PLAYER_START_POS_X,
-        y: PLAYER_START_POS_Y,
+        x: gridX,
+        y: gridY,
       },
       speed: this.gameObject.speed,
       charLayer: 'player',
@@ -36,8 +37,8 @@ export class EntityGrid implements IComponent {
     });
 
     // make sure our sprite position and grid position are the same, to avoid inconsistencies
-    const { x: gridX, y: gridY } = MainScene.grid.getPosition(this.gridKey);
-    const { x, y } = gridHelper.convertToXY(gridX, gridY);
+    const { x: gx, y: gy } = MainScene.grid.getPosition(this.gridKey);
+    const { x, y } = gridHelper.convertToXY(gx, gy);
     this.gameObject.x = x;
     this.gameObject.y = y;
 

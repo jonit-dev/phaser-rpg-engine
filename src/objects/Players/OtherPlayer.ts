@@ -7,7 +7,6 @@ import { ICameraCoordinates } from '../../typings/PlayerTypes';
 import { EntityGrid } from '../components/EntityGrid';
 import { OtherPlayerMovement } from './components/OtherPlayer/OtherPlayerMovement';
 import { PlayerDebug } from './components/Player/PlayerDebug';
-import { PlayerUI } from './components/Player/PlayerUI';
 
 export class OtherPlayer extends Entity {
   public direction: AnimationDirection = 'down';
@@ -42,6 +41,11 @@ export class OtherPlayer extends Entity {
 
     console.log(`💡 Other player(${this.name}) id ${this.id} has been created and added to position: ${x}, ${y}`);
 
+    scene.components.addComponent(this, new EntityGrid(this.id));
+    scene.components.addComponent(this, new OtherPlayerMovement(this.direction));
+    scene.components.addComponent(this, new PlayerDebug(this.id));
+    // scene.components.addComponent(this, new PlayerUI());
+
     MainScene.otherPlayers.push(this);
 
     // this is just networking information
@@ -55,11 +59,6 @@ export class OtherPlayer extends Entity {
       isMoving: this.isMoving,
       cameraCoordinates: this.cameraCoordinates,
     });
-
-    scene.components.addComponent(this, new EntityGrid(this.id));
-    scene.components.addComponent(this, new OtherPlayerMovement(this.direction));
-    scene.components.addComponent(this, new PlayerDebug(this.id));
-    scene.components.addComponent(this, new PlayerUI());
   }
 
   destroy(fromScene?: boolean): void {
