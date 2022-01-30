@@ -1,6 +1,6 @@
 import { IComponent } from '../../../../abstractions/ComponentService';
-import { GRID_HEIGHT, GRID_WIDTH } from '../../../../constants/worldConstants';
 import { geckosClientHelper } from '../../../../game';
+import { gridHelper } from '../../../../libs/GridHelper';
 import MainScene from '../../../../scenes/mainScene';
 import { AnimationDirection } from '../../../../typings/AnimationTypes';
 import { MapLayers } from '../../../../typings/MapsTypes';
@@ -11,7 +11,6 @@ import { PlayerCamera } from '../Player/PlayerCamera';
 export class OtherPlayerMovement implements IComponent {
   private gameObject: OtherPlayer;
   private direction: AnimationDirection = 'down';
-  private speed: number = 4;
 
   constructor(direction: AnimationDirection) {
     this.direction = direction;
@@ -19,19 +18,6 @@ export class OtherPlayerMovement implements IComponent {
 
   public init(targetObject: OtherPlayer) {
     this.gameObject = targetObject;
-  }
-
-  public awake() {
-    MainScene.grid.addCharacter({
-      id: this.gameObject.id,
-      sprite: this.gameObject,
-      startPosition: {
-        x: Math.round(this.gameObject.x / GRID_WIDTH),
-        y: Math.round(this.gameObject.y / GRID_HEIGHT),
-      },
-      speed: this.speed,
-      charLayer: 'player',
-    });
   }
 
   public start() {
@@ -61,11 +47,11 @@ export class OtherPlayerMovement implements IComponent {
         console.log(`received position update for other player ${data.id}`);
         console.log('pos', data);
 
-        // this.cameraCoordinates = data.cameraCoordinates; //! REACTIVATE on debug
+        const { gridX, gridY } = gridHelper.convertToGridXY(data.x, data.y);
 
         MainScene.grid.setPosition(this.gameObject.id, {
-          x: Math.round(data.x / GRID_WIDTH),
-          y: Math.round(data.y / GRID_HEIGHT),
+          x: gridX,
+          y: gridY,
         });
 
         this.direction = data.direction as AnimationDirection;

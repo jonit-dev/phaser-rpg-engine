@@ -1,10 +1,10 @@
 import { ComponentsScene } from '../../abstractions/ComponentsScene';
 import { Entity as Entity } from '../../abstractions/Entity';
 import { MainSceneData } from '../../constants/scenes/MainSceneData';
-import { GRID_HEIGHT, GRID_WIDTH } from '../../constants/worldConstants';
 import MainScene from '../../scenes/mainScene';
 import { AnimationDirection } from '../../typings/AnimationTypes';
 import { ICameraCoordinates } from '../../typings/PlayerTypes';
+import { EntityGrid } from '../components/EntityGrid';
 import { OtherPlayerMovement } from './components/OtherPlayer/OtherPlayerMovement';
 import { PlayerDebug } from './components/Player/PlayerDebug';
 import { PlayerUI } from './components/Player/PlayerUI';
@@ -56,10 +56,9 @@ export class OtherPlayer extends Entity {
       cameraCoordinates: this.cameraCoordinates,
     });
 
-    this.setDisplayOrigin(GRID_WIDTH, GRID_HEIGHT);
-
+    scene.components.addComponent(this, new EntityGrid(this.id));
     scene.components.addComponent(this, new OtherPlayerMovement(this.direction));
-    scene.components.addComponent(this, new PlayerDebug());
+    scene.components.addComponent(this, new PlayerDebug(this.id));
     scene.components.addComponent(this, new PlayerUI());
   }
 

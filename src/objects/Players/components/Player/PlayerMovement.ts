@@ -1,5 +1,4 @@
 import { IComponent } from '../../../../abstractions/ComponentService';
-import { PLAYER_START_POS_X, PLAYER_START_POS_Y } from '../../../../constants/playerConstants';
 import { GRID_HEIGHT, GRID_WIDTH } from '../../../../constants/worldConstants';
 import { geckosClientHelper } from '../../../../game';
 import MainScene from '../../../../scenes/mainScene';
@@ -22,20 +21,6 @@ export class PlayerMovement implements IComponent {
   public init(targetObject: Player) {
     this.gameObject = targetObject;
     this.cursors = this.gameObject.scene.input.keyboard.createCursorKeys();
-  }
-
-  public awake() {
-    MainScene.grid.addCharacter({
-      id: 'player',
-      sprite: this.gameObject,
-      // walkingAnimationMapping: 6,
-      startPosition: {
-        x: PLAYER_START_POS_X,
-        y: PLAYER_START_POS_Y,
-      },
-      speed: this.speed,
-      charLayer: 'player',
-    });
   }
 
   public start() {

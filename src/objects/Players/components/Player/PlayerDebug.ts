@@ -8,6 +8,12 @@ export class PlayerDebug implements IComponent {
   private debugMode: boolean = true;
 
   private debugCellOrigin;
+  private debugGridOrigin;
+  private gridKey: string;
+
+  constructor(gridKey: string) {
+    this.gridKey = gridKey;
+  }
 
   public init(targetObject: Player) {
     this.gameObject = targetObject;
@@ -21,6 +27,15 @@ export class PlayerDebug implements IComponent {
         GRID_WIDTH,
         GRID_HEIGHT,
         0x00ff,
+        0.5
+      );
+      const gridPos = MainScene.grid.getPosition(this.gridKey);
+      this.debugGridOrigin = this.gameObject.scene.add.rectangle(
+        gridPos.x * GRID_WIDTH,
+        gridPos.y * GRID_HEIGHT,
+        GRID_WIDTH,
+        GRID_HEIGHT,
+        0x000f,
         0.5
       );
     }
@@ -56,6 +71,10 @@ export class PlayerDebug implements IComponent {
     if (this.debugMode) {
       this.debugCellOrigin.x = this.gameObject.x;
       this.debugCellOrigin.y = this.gameObject.y;
+      const gridPos = MainScene.grid.getPosition(this.gridKey);
+
+      this.debugGridOrigin.x = gridPos.x * GRID_WIDTH;
+      this.debugGridOrigin.y = gridPos.y * GRID_HEIGHT;
     }
   }
 

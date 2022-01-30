@@ -25,10 +25,6 @@ export class PlayerUI implements IComponent {
     )}`;
     this.coordinatesText.x = this.gameObject.x - this.coordinatesText.width / 2;
     this.coordinatesText.y = this.gameObject.y - this.coordinatesText.height * 2;
-
-    if (!this.gameObject.active) {
-      this.destroy();
-    }
   }
 
   public destroy() {
