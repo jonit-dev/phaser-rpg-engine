@@ -68,10 +68,6 @@ export class OtherPlayer extends Entity {
     MainScene.otherPlayersInView = MainScene.otherPlayersInView.filter((p) => p.id !== this.id);
     MainScene.otherPlayers = MainScene.otherPlayers.filter((p) => p.id !== this.id);
 
-    const scene = this.scene as ComponentsScene;
-
-    scene.components.clearComponent(this);
-
     super.destroy(fromScene);
   }
 }

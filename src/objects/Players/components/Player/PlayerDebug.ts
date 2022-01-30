@@ -57,10 +57,6 @@ export class PlayerDebug implements IComponent {
       this.debugCellOrigin.x = this.gameObject.x;
       this.debugCellOrigin.y = this.gameObject.y;
     }
-
-    if (!this.gameObject.active) {
-      this.destroy();
-    }
   }
 
   public destroy() {

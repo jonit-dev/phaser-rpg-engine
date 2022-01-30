@@ -12,16 +12,30 @@ export interface IComponent {
 
 export default class ComponentService {
   private componentsByGameObject = new Map<string, IComponent[]>();
-  private groupsByGameObject = new Map<string, Phaser.GameObjects.Group>();
   private queueForStart: IComponent[] = [];
 
   public clearComponent(targetObject: Phaser.GameObjects.GameObject) {
     if (this.componentsByGameObject.has(targetObject.name)) {
+      const entries = this.componentsByGameObject.get(targetObject.name);
+
+      if (!entries) {
+        return;
+      }
+      for (const entry of entries) {
+        if (entry.destroy) {
+          entry.destroy!();
+        }
+      }
+      // delete entry in our queue (so we dont waste memory checking for it)
       this.componentsByGameObject.delete(targetObject.name);
     }
   }
 
-  public addComponent(targetObject: Phaser.GameObjects.GameObject, component: IComponent) {
+  public addComponent(
+    targetObject: Phaser.GameObjects.GameObject,
+    component: IComponent,
+    autoChildrenCleanup: boolean = true
+  ) {
     if (!targetObject.name) {
       // generate new unique id, if no name is set
       targetObject.name = uuidv4();
@@ -44,7 +58,12 @@ export default class ComponentService {
       this.queueForStart.push(component);
     }
 
-    console.log(component);
+    // if we want to automatically call the destroy method of all of our children, when the parent is destroyed...
+    if (autoChildrenCleanup) {
+      targetObject.addListener('destroy', () => {
+        this.clearComponent(targetObject);
+      });
+    }
   }
 
   public findComponent<ComponentType>(

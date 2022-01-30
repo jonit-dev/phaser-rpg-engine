@@ -31,10 +31,5 @@ export default class MainScene extends ComponentsScene {
       MainSceneData.assets.player.textureKey,
       this.map.tilemap
     );
-
-    setInterval(() => {
-      console.log(this.components);
-    }, 3000);
-    // const npc = new AliceNPC(this, 300, 300, 'characters');
   }
 }
