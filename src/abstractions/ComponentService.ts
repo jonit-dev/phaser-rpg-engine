@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 export type Constructor<T extends {}> = new (...args: any[]) => T;
 
 export interface IComponent {
-  init(targetComponent: Phaser.GameObjects.GameObject);
+  init(targetComponent: Phaser.GameObjects.GameObject, ...args: any[]): void;
   awake?: () => void;
   start?: () => void;
   update?: (dt: number) => void;

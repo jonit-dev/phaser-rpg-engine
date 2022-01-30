@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "version": "0.6.7"
+  },
+  "savePath": "",
+  "images": [
+    {
+      "name": "1.png",
+      "path": "/home/jonit/Programming/phaserjs/rpg-engine/data/tileset/forest/tiles/1.png",
+      "folder": ""
+    },
+    {
+      "name": "3.png",
+      "path": "/home/jonit/Programming/phaserjs/rpg-engine/data/tileset/forest/tiles/3.png",
+      "folder": ""
+    },
+    {
+      "name": "7.png",
+      "path": "/home/jonit/Programming/phaserjs/rpg-engine/data/tileset/forest/tiles/7.png",
+      "folder": ""
+    },
+    {
+      "name": "9.png",
+      "path": "/home/jonit/Programming/phaserjs/rpg-engine/data/tileset/forest/tiles/9.png",
+      "folder": ""
+    },
+    {
+      "name": "10.png",
+      "path": "/home/jonit/Programming/phaserjs/rpg-engine/data/tileset/forest/tiles/10.png",
+      "folder": ""
+    },
+    {
+      "name": "house1.png",
+      "path": "/home/jonit/Downloads/house1.png",
+      "folder": ""
+    }
+  ],
+  "folders": [],
+  "packOptions": {
+    "textureName": "forest",
+    "textureFormat": "png",
+    "removeFileExtension": false,
+    "prependFolderName": true,
+    "base64Export": false,
+    "tinify": true,
+    "tinifyKey": "kz36gxhPRP4R9hkfqpsbC8Tz1TlzNvKv",
+    "scale": 1,
+    "filter": "none",
+    "exporter": "JSON (hash)",
+    "fileName": "pack-result",
+    "savePath": "",
+    "width": 2048,
+    "height": 2048,
+    "fixedSize": false,
+    "powerOfTwo": false,
+    "padding": 0,
+    "extrude": 0,
+    "allowRotation": false,
+    "allowTrim": false,
+    "trimMode": "crop",
+    "alphaThreshold": "0",
+    "detectIdentical": true,
+    "packer": "MaxRectsPacker",
+    "packerMethod": "SmartArea"
+  }
+}

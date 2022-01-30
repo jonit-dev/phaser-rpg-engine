@@ -17,6 +17,7 @@ export class PlayerCamera implements IComponent {
   public static worldViewWithOffset: Phaser.Geom.Rectangle;
   private debugWorldView: Phaser.GameObjects.Rectangle;
   private debugMode: boolean = false;
+  private debugGrid: Phaser.GameObjects.Grid;
 
   public init(targetObject: Player) {
     this.gameObject = targetObject;
@@ -28,11 +29,23 @@ export class PlayerCamera implements IComponent {
     this.scene.cameras.addExisting(this.camera, true);
     this.camera.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
     this.camera.startFollow(this.gameObject);
-    this.camera.roundPixels = true; //! This MUST be after startFollow method, otherwise it won't work
     this.camera.setLerp(0.5);
     this.renderWorldviewWithOffset();
 
     this.onRenderDebugInfo();
+    this.camera.roundPixels = true; //! This MUST be after startFollow method, otherwise it won't work
+
+    this.debugGrid = this.scene.add.grid(
+      this.camera.worldView.x,
+      this.camera.worldView.y,
+      this.camera.worldView.width,
+      this.camera.worldView.height,
+      GRID_WIDTH,
+      GRID_HEIGHT,
+      0x00ff,
+      0.4
+    );
+    this.debugGrid.setDepth(4);
   }
 
   public update() {
@@ -42,6 +55,10 @@ export class PlayerCamera implements IComponent {
     if (this.debugMode) {
       this.onRenderDebugInfo();
     }
+    this.debugGrid.x = this.camera.worldView.x;
+    this.debugGrid.y = this.camera.worldView.y;
+    this.debugGrid.width = this.camera.worldView.width;
+    this.debugGrid.height = this.camera.worldView.height;
   }
 
   private renderWorldviewWithOffset() {

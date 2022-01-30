@@ -8,13 +8,16 @@ import { PlayerMovement } from './components/Player/PlayerMovement';
 import { PlayerUI } from './components/Player/PlayerUI';
 export class Player extends Entity {
   public static id = uuidv4();
+  public tilemap: Phaser.Tilemaps.Tilemap;
 
-  public name: string;
+  public key: string;
 
-  constructor(scene: ComponentsScene, x: number, y: number, texture: string) {
+  constructor(scene: ComponentsScene, x: number, y: number, texture: string, tilemap: Phaser.Tilemaps.Tilemap) {
     super(scene, x, y, texture, MainSceneData.assets);
 
-    this.name = uniqueNamesGenerator({
+    this.tilemap = tilemap;
+
+    this.key = uniqueNamesGenerator({
       dictionaries: [animals],
       length: 1,
     });

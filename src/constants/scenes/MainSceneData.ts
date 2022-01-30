@@ -25,5 +25,27 @@ export const MainSceneData: ISceneData = {
         },
       },
     },
+    alice: {
+      textureKey: 'characters',
+      path: 'assets/atlas/characters/characters.png',
+      animations: {
+        down: {
+          walking: [6, 8],
+          standing: 7,
+        },
+        up: {
+          walking: [42, 44],
+          standing: 43,
+        },
+        left: {
+          walking: [18, 20],
+          standing: 19,
+        },
+        right: {
+          walking: [30, 32],
+          standing: 31,
+        },
+      },
+    },
   },
 };

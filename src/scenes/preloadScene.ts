@@ -1,5 +1,5 @@
 import { MainSceneData } from '../constants/scenes/MainSceneData';
-import { DesertMapTileset } from '../maps/DesertTileset';
+import { maps } from '../maps/maps';
 import { PreloadSceneData } from '../typings/PreloadSceneTypes';
 
 export default class PreloadScene extends Phaser.Scene {
@@ -14,7 +14,14 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 32,
     });
 
-    DesertMapTileset.preload(this);
+    // preload maps assets
+
+    for (const map of maps) {
+      this.load.image(map.imageKey, map.imagePath);
+      this.load.tilemapTiledJSON(map.JSONKey, map.jsonPath);
+    }
+
+    this.load.atlas('characters', 'assets/atlas/characters/characters.png', 'assets/atlas/characters/characters.json');
   }
 
   create() {

@@ -10,7 +10,7 @@ import { PlayerCamera } from '../Player/PlayerCamera';
 export class OtherPlayerMovement implements IComponent {
   private gameObject: OtherPlayer;
   private direction: AnimationDirection = 'down';
-  private speed: number = 2;
+  private speed: number = 4;
 
   constructor(direction: AnimationDirection) {
     this.direction = direction;
