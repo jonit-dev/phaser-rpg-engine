@@ -19,7 +19,7 @@ export class PlayerCamera implements IComponent {
   private debugWorldView: Phaser.GameObjects.Rectangle;
   private debugMode: boolean = false;
   private debugGrid: Phaser.GameObjects.Grid;
-  private showDebugGrid: boolean = true;
+  private showDebugGrid: boolean = false;
 
   public init(targetObject: Player) {
     this.gameObject = targetObject;

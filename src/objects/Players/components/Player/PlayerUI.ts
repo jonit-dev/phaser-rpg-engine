@@ -20,11 +20,13 @@ export class PlayerUI implements IComponent {
   public start() {}
 
   public update() {
-    this.coordinatesText.text = `${this.gameObject.name} | ${Math.round(this.gameObject.x)}, ${Math.round(
-      this.gameObject.y
-    )}`;
-    this.coordinatesText.x = this.gameObject.x - this.coordinatesText.width / 2;
-    this.coordinatesText.y = this.gameObject.y - this.coordinatesText.height * 2;
+    if (this.gameObject && this.coordinatesText) {
+      this.coordinatesText.text = `${this.gameObject.name} | ${Math.round(this.gameObject.x)}, ${Math.round(
+        this.gameObject.y
+      )}`;
+      this.coordinatesText.x = this.gameObject.x - this.coordinatesText.width / 2;
+      this.coordinatesText.y = this.gameObject.y - this.coordinatesText.height * 2;
+    }
   }
 
   public destroy() {

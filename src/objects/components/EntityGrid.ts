@@ -43,6 +43,6 @@ export class EntityGrid implements IComponent {
     this.gameObject.y = y;
 
     // tweak the display origin to match the grid
-    this.gameObject.setDisplayOrigin(GRID_WIDTH, GRID_HEIGHT);
+    this.gameObject.setDisplayOrigin(GRID_WIDTH - GRID_WIDTH / 2, GRID_HEIGHT);
   }
 }

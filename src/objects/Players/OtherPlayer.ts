@@ -7,6 +7,7 @@ import { ICameraCoordinates } from '../../typings/PlayerTypes';
 import { EntityGrid } from '../components/EntityGrid';
 import { OtherPlayerMovement } from './components/OtherPlayer/OtherPlayerMovement';
 import { PlayerDebug } from './components/Player/PlayerDebug';
+import { PlayerUI } from './components/Player/PlayerUI';
 
 export class OtherPlayer extends Entity {
   public direction: AnimationDirection = 'down';
@@ -44,7 +45,7 @@ export class OtherPlayer extends Entity {
     scene.components.addComponent(this, new EntityGrid(this.id));
     scene.components.addComponent(this, new OtherPlayerMovement(this.direction));
     scene.components.addComponent(this, new PlayerDebug(this.id));
-    // scene.components.addComponent(this, new PlayerUI());
+    scene.components.addComponent(this, new PlayerUI());
 
     MainScene.otherPlayers.push(this);
 
