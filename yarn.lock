@@ -5033,10 +5033,10 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-phaser-plugin-debug-draw@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/phaser-plugin-debug-draw/-/phaser-plugin-debug-draw-7.0.0.tgz#639efec3e4696a874d65cba47485ec26917a6689"
-  integrity sha512-3KvjlERYX7/suFenalvwo4ZUx1hBoriay5ddE5SXCH0TT9F0tBOhcbBdqQ9ilarGbzH1Tcz1E2HmbWwaszSMoA==
+phaser-animated-tiles-phaser3.5@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/phaser-animated-tiles-phaser3.5/-/phaser-animated-tiles-phaser3.5-2.0.4.tgz#7d658b9ac1a904a9dd54609664b98abf5681540e"
+  integrity sha512-GA2JaNrz9pzQPt2sXuaWVFK/jtJK3yp8xSOUb/Q8aKpUnM2QfSGJcAiOw75jqMa5GWXOjnxkvf5hX8Lcc0KKyA==
 
 phaser@^3.55.2:
   version "3.55.2"
